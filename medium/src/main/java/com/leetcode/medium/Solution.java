@@ -3,10 +3,9 @@ package com.leetcode.medium;
 import com.leetcode.base.ListNode;
 
 /**
- * 计划前50道题目为一个类文件
  * @author lihao on 2022/12/26
  */
-public class Solution1 {
+public class Solution {
 
     /**
      * 2,两数相加 https://leetcode.cn/problems/add-two-numbers/
@@ -54,6 +53,39 @@ public class Solution1 {
             right++;
         }
         return rns;
+    }
+
+    /**
+     * 5. 最长回文子串 https://leetcode.cn/problems/longest-palindromic-substring/
+     * 思路: 动态规划,dp[i][i]一定为true,双重for循环,两个指针,如果指针元素相同且相邻,则dp[][]=true,
+     *  如果不相邻且dp[+1][-1]=true,则dp[][]=true,如此,利用动态规划即可.
+     *
+     */
+    public String longestPalindrome(String s) {
+        char[] charArray = s.toCharArray();
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        int left = 0, right = 0;
+        for (int i = 0; i < s.length(); i++) {
+            dp[i][i] = true;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (charArray[i] != charArray[j]) { continue; }
+                if (i - j == 1 || (i - j > 1 && dp[j + 1][i - 1])) {
+                    dp[j][i] = true;
+                    if (i - j > right - left) {
+                        left = j;
+                        right = i;
+                    }
+                }
+            }
+        }
+        return s.substring(left, right + 1);
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(new Solution().longestPalindrome("abba"));
     }
 
 }
