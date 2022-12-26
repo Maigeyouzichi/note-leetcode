@@ -31,4 +31,29 @@ public class Solution1 {
         return head.next;
     }
 
+    /**
+     * 3. 无重复字符的最长子串 https://leetcode.cn/problems/longest-substring-without-repeating-characters/
+     * 思路:滑动窗口,右指针先滑,遍历后标记,如果遇到重复的,左指针滑动重复元素右一个元素.
+     * tips:
+     *  虽然题目说明由英文字母、数字、符号和空格组成,但是0~255就够了
+     *  字符表示值范围: a-z: 97-122  A-Z: 65-90
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() == 0 || s.length() == 1) return s.length();
+        char[] arr = s.toCharArray();
+        int left = 0,right = 0;
+        boolean[] bitArr = new boolean[256];
+        int rns = 0;
+        while(right < arr.length) {
+            if(bitArr[arr[right]]) {
+                while(arr[left] != arr[right]) { bitArr[arr[left++]] = false; }
+                left++;
+            }
+            bitArr[arr[right]] = true;
+            rns = Math.max(rns,right-left+1);
+            right++;
+        }
+        return rns;
+    }
+
 }
