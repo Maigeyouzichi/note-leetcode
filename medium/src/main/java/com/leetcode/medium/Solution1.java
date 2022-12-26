@@ -10,6 +10,7 @@ public class Solution1 {
 
     /**
      * 2,两数相加 https://leetcode.cn/problems/add-two-numbers/
+     * 思路: 遍历两个链表,不存在的节点值作0处理,依次相加,进位值单独存储,最后单独处理进位值
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode head = new ListNode();
