@@ -59,7 +59,6 @@ public class Solution {
      * 5. 最长回文子串 https://leetcode.cn/problems/longest-palindromic-substring/
      * 思路: 动态规划,dp[i][i]一定为true,双重for循环,两个指针,如果指针元素相同且相邻,则dp[][]=true,
      *  如果不相邻且dp[+1][-1]=true,则dp[][]=true,如此,利用动态规划即可.
-     *
      */
     public String longestPalindrome(String s) {
         char[] charArray = s.toCharArray();
@@ -84,8 +83,25 @@ public class Solution {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println(new Solution().longestPalindrome("abba"));
+    /**
+     * 11. 盛最多水的容器 https://leetcode.cn/problems/container-with-most-water/
+     * 思路: 双指针,容器盛水的多少,取决于最短的板,每次滑动最短的板即可
+     */
+    public int maxArea(int[] height) {
+        int left = 0,right = height.length-1;
+        int rns = 0;
+        while(left < right) {
+            int volume = Math.min(height[left],height[right])*(right-left);
+            rns = Math.max(volume,rns);
+            if(height[left] > height[right]) {
+                int preRight = right;
+                while(height[preRight]>= height[right] && left<right) right--;
+            }else {
+                int preLeft = left;
+                while(height[preLeft]>=height[left] && left<right) left++;
+            }
+        }
+        return rns;
     }
 
 }
