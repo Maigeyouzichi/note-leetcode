@@ -1,7 +1,8 @@
 package com.leetcode.medium;
 
 import com.leetcode.base.ListNode;
-
+import java.util.Stack;
+import com.leetcode.base.TreeNode;
 /**
  * @author lihao on 2022/12/26
  */
@@ -103,5 +104,28 @@ public class Solution {
         }
         return rns;
     }
+
+
+    /**
+     * 补充: 二叉树的后续遍历,非递归解法 https://mp.weixin.qq.com/s/mBXfpH4nuIltyHm72zLryw
+     */
+    public static void postOrder(TreeNode tree) {
+        if (tree == null) return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(tree);
+        TreeNode c;
+        while (!stack.isEmpty()) {
+            c = stack.peek();
+            if (c.left != null && tree != c.left && tree != c.right) {
+                stack.push(c.left);
+            } else if (c.right != null && tree != c.right) {
+                stack.push(c.right);
+            } else {
+                System.out.printf(stack.pop().val + "");
+                tree = c;
+            }
+        }
+    }
+
 
 }
