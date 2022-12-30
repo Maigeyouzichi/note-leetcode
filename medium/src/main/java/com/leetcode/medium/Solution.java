@@ -1,8 +1,11 @@
 package com.leetcode.medium;
 
 import com.leetcode.base.ListNode;
-import java.util.Stack;
 import com.leetcode.base.TreeNode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
 /**
  * @author lihao on 2022/12/26
  */
@@ -127,5 +130,38 @@ public class Solution {
         }
     }
 
+    /**
+     * 三数之和 https://leetcode.cn/problems/3sum/
+     * 思路: 排序+三指针,最先确定左指针,从0开始,遇到相同的跳过,进而把问题转换成双指针问题,left,right指针相向而行,遇到相同的值进行跳过
+     * 复杂度: N²
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length < 3) return result;
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length-2; i++) {
+            if (nums[i] > 0) return result;
+            //答案中不可以包括相同的三元组
+            if (i >0 && nums[i] == nums[i-1]) continue;
+            int left = i +1;
+            int right = nums.length -1;
+            while (left < right) {
+                int sum = nums[i]+nums[left]+nums[right];
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i],nums[left],nums[right]));
+                    //答案中不可以包括相同的三元组
+                    while (left<right && nums[left] == nums[left+1]) left ++;
+                    while (right > left && nums[right] == nums[right -1]) right --;
+                    left ++;
+                    right --;
+                }else if (sum > 0) {
+                    right --;
+                }else {
+                    left ++;
+                }
+            }
+        }
+        return result;
+    }
 
 }
