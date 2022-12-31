@@ -164,4 +164,32 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 16. 最接近的三数之和 https://leetcode.cn/problems/3sum-closest/
+     * 思路: 和三数之和一样,遍历每一个元素,三指针转换成双指针问题,相对于三数之和,没有去重跳过的问题,反而编码上更简单
+     * 吐槽: 同样的代码,第一次提交是5ms,现在是13ms,不知道力扣的服务器发生了什么
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int result = nums[0]+nums[1]+nums[2];
+        for (int i = 0; i < nums.length-2; i++) {
+            int left = i+1;
+            int right = nums.length -1;
+            while (left < right) {
+                int sum = nums[i]+nums[left]+nums[right];
+                if (Math.abs(target-result)>Math.abs(target-sum)) {
+                    result = sum;
+                }
+                if (sum == target) {
+                    return sum;
+                } else if (sum > target) {
+                    right --;
+                } else {
+                    left ++;
+                }
+            }
+        }
+        return result;
+    }
+
 }
