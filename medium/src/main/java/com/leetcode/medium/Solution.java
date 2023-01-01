@@ -192,4 +192,33 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 19. 删除链表的倒数第 N 个结点  https://leetcode.cn/problems/remove-nth-node-from-end-of-list/
+     * 思路: 两次遍历
+     *  第一次遍历: 获取链表总长度,并获取目标节点的index(index从0开始)
+     *  第二次遍历: 考虑不同情况不同处理,A-目标节点为头节点,B-目标节点为尾节点,C-目标节点为中间节点
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode tmpNode = head;
+        int sz = 1;
+        while (tmpNode.next != null) {
+            tmpNode = tmpNode.next;
+            sz ++;
+        }
+        int index = sz - n;
+        //如果是目标节点是第一个节点
+        if (index == 0) { return head.next;}
+        tmpNode = head;
+        for (int i = 0; i < index-1; i++) {
+            tmpNode = tmpNode.next;
+        }
+        if (index == sz-1) {
+            //如果是目标节点是最后一个节点
+            tmpNode.next = null;
+        }else {
+            //如果是目标节点是中间节点
+            tmpNode.next = tmpNode.next.next;
+        }
+        return head;
+    }
 }
