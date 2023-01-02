@@ -221,4 +221,29 @@ public class Solution {
         }
         return head;
     }
+
+    /**
+     * 22. 括号生成 https://leetcode.cn/problems/generate-parentheses/
+     * 思路: 动态规划,dp[n]表示i对括弧可以生成的括号组合,n=0表示空串,n对括弧可以由"( m对括弧的组合 ) + n-1-m对括弧的组合" 组合而成
+     */
+    public List<String> generateParenthesis(int n) {
+        //dp[i]表示i对括弧可以生成的括号组合,i=0表示空串
+        List<List<String>> dp = new ArrayList<>();
+        //设置初始数据,增加空串,为了兼容n=1的场景
+        List<String> origin = new ArrayList<>();
+        origin.add("");
+        dp.add(origin);
+        for(int i=1;i<n+1;i++) {
+            List<String> currList = new ArrayList<>();
+            for(int j=0;j<i;j++) {
+                for(String m: dp.get(j)) {
+                    for(String k: dp.get(i-1-j)) {
+                        currList.add("("+m+")"+k);
+                    }
+                }
+            }
+            dp.add(currList);
+        }
+        return dp.get(n);
+    }
 }
