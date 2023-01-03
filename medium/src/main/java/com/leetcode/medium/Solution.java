@@ -246,4 +246,17 @@ public class Solution {
         }
         return dp.get(n);
     }
+
+    /**
+     * 24. 两两交换链表中的节点 https://leetcode.cn/problems/swap-nodes-in-pairs/
+     * 思路: 递归, swapPairs()方法将传入的node节点和后节点交换并返回后节点.
+     */
+    public ListNode swapPairs(ListNode head) {
+        //方法的解释: 输入node节点,将node和next node交换后返回前面的节点
+        if (head == null || head.next == null) { return head; }
+        ListNode next = head.next;
+        head.next = swapPairs(next.next);
+        next.next = head;
+        return next;
+    }
 }
