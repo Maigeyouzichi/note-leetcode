@@ -294,4 +294,53 @@ public class Solution {
         }
         return -1;
     }
+
+    /**
+     * 31. 下一个排列 https://leetcode.cn/problems/next-permutation/
+     * 思路: 其实应该叫下一个字典更大排序更合适,下一个更大的话,优先动低位的元素,这样才是下一个更大.
+     *  1,先考虑一般情况,字典序更大的组合,就是把尽可能低位的元素大的替换小的,如果从右向左都是递增的,那么断然是没有符合条件的替换场景的,
+     *  找到第一个值下降的元素,index记作i,需要被比它更大的元素替换,从右向左找第一个比它更大的元素,索引记作j
+     *  nums[i]和nums[j]交换后,将i之后的元素升序排序即可(交换后i之后元素刚好是递减的,因此两两交换就可以了)
+     *  2,再考虑典型情况,比如: [3,2,1] 或者 [3],增加兼容逻辑
+     */
+    public void nextPermutation(int[] nums) {// 1, 2, 3, 4, 5, 5, 4, 3, 2, 1
+        int i = nums.length - 2;
+        //从右向左找第一次下降的数字
+        while (i > 0) {
+            if (nums[i]>=nums[i+1]) { i --; }else { break; }
+        }
+        //兼容只要一个元素的场景,比如: [3]
+        i = Math.max(i, 0);
+        int j = nums.length -1;
+        //从右向左找第一个比nums[i]大的数字
+        while (j > i) {
+            if (nums[j] <= nums[i]){ j --; }else { break; }
+        }
+        swap(nums,i,j);
+        //兼容没有下一个排列的情况,比如: 3,2,1,0
+        if (i ==0 && j ==0) {
+            i --;
+        }
+        reverse(nums,i+1,nums.length-1);
+    }
+
+    /**
+     * 根据index两两交换元素
+     */
+    private void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            swap(nums,i, j);
+            i ++;
+            j --;
+        }
+    }
+
+    /**
+     * 根据index交换数组元素
+     */
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
 }
