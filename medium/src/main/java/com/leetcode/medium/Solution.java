@@ -259,4 +259,39 @@ public class Solution {
         next.next = head;
         return next;
     }
+
+    /**
+     * 28. 找出字符串中第一个匹配项的下标 https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/
+     * 思路: 经典kmp算法
+     */
+    public int strStr(String haystack, String needle) {
+        //构建next数组
+        int m = haystack.length();
+        int n = needle.length();
+        if (n==0) return 0;
+        if (n>m) return -1;
+        int[] next = new int[n];
+        int j = 0;
+        for (int i = 1; i < n; i++) {
+            while (j>0 && needle.charAt(i) != needle.charAt(j)) {
+                j = next[j-1];
+            }
+            if (needle.charAt(i) == needle.charAt(j)) {
+                j ++;
+            }
+            next[i] = j;
+        }
+        //遍历 -> 判断子串
+        j = 0;
+        for (int i = 0; i < m; i++) {
+            while (j>0 && haystack.charAt(i) != needle.charAt(j)) {
+                j = next[j-1];
+            }
+            if (needle.charAt(j) == haystack.charAt(i)) {
+                j ++;
+            }
+            if (j == n) return i-(n-1);
+        }
+        return -1;
+    }
 }
