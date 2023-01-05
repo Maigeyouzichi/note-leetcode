@@ -343,4 +343,44 @@ public class Solution {
         nums[i] = nums[j];
         nums[j] = tmp;
     }
+
+    /**
+     * 33. 搜索旋转排序数组 https://leetcode.cn/problems/search-in-rotated-sorted-array/
+     * 思路: 二分查找
+     *  题目要求复杂度: O(log n),可以自然的想到二分查找,由于nums本身是连续的,被"旋转"后仍然是分段有序,找到分段的index,
+     *  分别进行二分即可
+     */
+    public int search(int[] nums, int target) {
+        int index = 0;
+        for(int i=1;i<nums.length;i++) {
+            if(nums[i]-nums[i-1]<0) {
+                index = i;
+                break;
+            }
+        }
+        int indexLeft = binarySearch(nums,0,index-1,target);
+        if(indexLeft > -1) return indexLeft;
+        int indexRight = binarySearch(nums,index,nums.length-1,target);
+        if(indexRight > -1) return indexRight;
+        return -1;
+    }
+
+    /**
+     * 二分查找
+     * @return lihao
+     */
+    private int binarySearch(int[] nums,int start, int end, int target) {
+        while(start<=end) {
+            int mid = (start+end)/2;
+            if(nums[mid] > target) {
+                end = mid-1;
+            }else if(nums[mid] < target) {
+                start = mid+1;
+            }else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
 }
