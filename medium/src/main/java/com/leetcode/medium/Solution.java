@@ -367,7 +367,6 @@ public class Solution {
 
     /**
      * 二分查找
-     * @return lihao
      */
     private int binarySearch(int[] nums,int start, int end, int target) {
         while(start<=end) {
@@ -381,6 +380,40 @@ public class Solution {
             }
         }
         return -1;
+    }
+
+    /**
+     * 34. 在排序数组中查找元素的第一个和最后一个位置
+     * https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/
+     * 思路: 二分查找
+     *  两次二分,分别找出target的index的最小值和最大值,二分的实现当arr[mid] == target的时候进行移动下标即可.
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int indexLeft = binarySearchInCondition(nums,target,true);
+        int indexRight = binarySearchInCondition(nums,target, false);
+        return new int[]{indexLeft,indexRight};
+    }
+
+    /**
+     * 有条件的二分查找
+     * 存在多个结果,根据传入条件,返回目标值最小index或者最大index
+     */
+    int binarySearchInCondition(int[] arr, int target, boolean leftFlag) {
+        if(arr.length == 0) return -1;
+        int left = 0,right = arr.length-1;
+        int res = -1;
+        while(left<=right) {
+            int mid = left+(right-left)/2;
+            if(arr[mid] > target) {
+                right = mid - 1;
+            }else if(arr[mid]< target) {
+                left = mid + 1;
+            }else {
+                res = mid;
+                if(leftFlag) { right = mid -1; }else { left = mid+1;}
+            }
+        }
+        return res;
     }
 
 }
