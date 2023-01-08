@@ -4,6 +4,7 @@ import com.leetcode.base.ListNode;
 import com.leetcode.base.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 /**
@@ -262,7 +263,7 @@ public class Solution {
 
     /**
      * 28. 找出字符串中第一个匹配项的下标 https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/
-     * 思路: 经典kmp算法
+     * 思路: 经典kmp算法 todo 待理解
      */
     public int strStr(String haystack, String needle) {
         //构建next数组
@@ -414,6 +415,37 @@ public class Solution {
             }
         }
         return res;
+    }
+
+    /**
+     * 39. 组合总和 https://leetcode.cn/problems/combination-sum/
+     * 思路: 回溯 -- 解决组合问题一般都是回溯 todo 待理解
+     * 重复元素的组合,每次元素使用后,还要从当前元素开始重复相同的过程,使用for循环是从前往后遍历,这里使用递归,可以实现从后往前遍历
+     * 1,target初始值的时候,从第一个元素递归到最后,依次弹栈,等于是从后往前进行遍历
+     * 2,每处理一次循环,会新add一个元素,这时target就会减少,然后重新跑一遍1的流程.
+     * 3,递归中套着递归,最后最外层的栈全部弹出,执行结束
+     */
+    List<List<Integer>> rns = new ArrayList<>();
+    LinkedList<Integer> path = new LinkedList<>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        backTracing(candidates,target,0);
+        return rns;
+    }
+
+    private void backTracing(int[] candidates,int target,int idx) {
+        if(idx == candidates.length) { return; }
+        if(target == 0) {
+            rns.add(new ArrayList<>(path));
+            return;
+        }
+        //从后往前遍历
+        backTracing(candidates,target,idx+1);
+        if(target >= candidates[idx]) {
+            path.add(candidates[idx]);
+            //target变了之后也要将整个过程再重复一遍
+            backTracing(candidates,target - candidates[idx],idx);
+            path.removeLast();
+        }
     }
 
 }
