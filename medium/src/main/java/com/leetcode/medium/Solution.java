@@ -432,6 +432,12 @@ public class Solution {
         return rns;
     }
 
+    /**
+     * 函数定义: 给定源数组,目标值,初始下标,将符合条件的组合加入到结果集合中
+     * @param candidates 源数组
+     * @param target 目标值
+     * @param idx 下标
+     */
     private void backTracing(int[] candidates,int target,int idx) {
         if(idx == candidates.length) { return; }
         if(target == 0) {
@@ -446,6 +452,28 @@ public class Solution {
             backTracing(candidates,target - candidates[idx],idx);
             path.removeLast();
         }
+    }
+
+    /**
+     * 45. 跳跃游戏 II https://leetcode.cn/problems/jump-game-ii/
+     * 思路: 从第0个各自开始算段落,第0个能到达的最远的index是下一个边界,移动到下一个边界的时候确定下一个边界,
+     * 每次经过边界的时候,step++,最后符合条件的时候,step+1返回.
+     */
+    public int jump(int[] nums) {
+        if (nums[0] == 0 || nums.length ==1) return 0;
+        int step = 0, currentMaxIndex = 0,stepMaxIndex = 0;
+        for (int i = 0; i < nums.length; i++) {
+            currentMaxIndex = Math.max(currentMaxIndex,i+nums[i]);
+            if (currentMaxIndex>=nums.length-1) {
+                return step+1;
+            }
+            if (i == stepMaxIndex) {
+                step ++;
+                stepMaxIndex = currentMaxIndex;
+            }
+        }
+        //一定会提前返回
+        return 0;
     }
 
 }
