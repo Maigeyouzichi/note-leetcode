@@ -476,4 +476,27 @@ public class Solution {
         return 0;
     }
 
+    /**
+     * 46. 全排列 https://leetcode.cn/problems/permutations/
+     * 思路: 回溯
+     * 每一次递归都遍历全部的元素,path中如果有重复的就跳过本次循环
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        backTracing(nums);
+        return rns;
+    }
+
+    private void backTracing(int[] nums) {
+        if (path.size() == nums.length) {
+            rns.add(new ArrayList<>(path));
+            return;
+        }
+        for (int nu : nums) {
+            if (path.contains(nu)) { continue; }
+            path.add(nu);
+            backTracing(nums);
+            path.removeLast();
+        }
+    }
+
 }
