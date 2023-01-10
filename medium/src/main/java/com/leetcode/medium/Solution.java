@@ -499,4 +499,18 @@ public class Solution {
         }
     }
 
+    /**
+     * 53. 最大子数组和 https://leetcode.cn/problems/maximum-subarray/
+     * 思路: 因为是连续的子数组,遍历一次,pre记录当前最大值,pre+nums[i] 和 nums[i]比较去较大值,同时更新res即可
+     */
+    public int maxSubArray(int[] nums) {
+        int res = nums[0];
+        int pre = nums[0];
+        for(int i=1;i<nums.length;i++) {
+            pre = Math.max(pre+nums[i],nums[i]);
+            res = Math.max(res,pre);
+        }
+        return res;
+    }
+
 }
