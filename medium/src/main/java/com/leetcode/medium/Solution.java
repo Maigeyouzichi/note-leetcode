@@ -513,4 +513,18 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 55. 跳跃游戏 https://leetcode.cn/problems/jump-game/
+     * 思路:不用考虑步数,所以只需要考虑最大可到达index即可,指针向右滑动,同时更新maxIndex
+     */
+    public boolean canJump(int[] nums) {
+        int currentIndex = 0, maxIndex = 0;
+        while(currentIndex <= maxIndex) {
+            maxIndex = Math.max(currentIndex+nums[currentIndex],maxIndex);
+            if(maxIndex >= nums.length-1) return true;
+            currentIndex++;
+        }
+        return false;
+    }
+
 }
