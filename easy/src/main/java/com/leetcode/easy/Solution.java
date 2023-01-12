@@ -4,6 +4,7 @@ package com.leetcode.easy;
  * easy题集
  * @author lihao on 2023/1/11
  */
+@SuppressWarnings("all")
 public class Solution {
 
     /**

@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Stack;
 /**
  * @author lihao on 2022/12/26
  */
+@SuppressWarnings("all")
 public class Solution {
 
     /**
@@ -526,5 +528,31 @@ public class Solution {
         }
         return false;
     }
+
+    /**
+     * 56. 合并区间 https://leetcode.cn/problems/merge-intervals/
+     * 思路: 优先队列
+     * 借助优先队列,将时间块按照startTime进行排序,依次遍历,根据next[0]和current[0]比较进行分支判断
+     */
+    public int[][] merge(int[][] intervals) {
+        PriorityQueue<int[]> needVisitIntervals = new PriorityQueue<>((o1,o2) -> o1[0] - o2[0]);
+        for(int[] interval : intervals) {
+            needVisitIntervals.offer(interval);
+        }
+        List<int[]> mergedIntervals = new ArrayList<>();
+        int[] needCompareInterval = needVisitIntervals.poll();
+        while(!needVisitIntervals.isEmpty()) {
+            int[] currInterval = needVisitIntervals.poll();
+            if(needCompareInterval[1] >= currInterval[0]) {
+                needCompareInterval[1] = Math.max(needCompareInterval[1],currInterval[1]);
+            }else {
+                mergedIntervals.add(needCompareInterval);
+                needCompareInterval = currInterval;
+            }
+        }
+        mergedIntervals.add(needCompareInterval);
+        return mergedIntervals.toArray(new int[mergedIntervals.size()][]);
+    }
+
 
 }
