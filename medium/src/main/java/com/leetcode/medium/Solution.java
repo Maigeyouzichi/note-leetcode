@@ -554,5 +554,30 @@ public class Solution {
         return mergedIntervals.toArray(new int[mergedIntervals.size()][]);
     }
 
+    /**
+     * 61. 旋转链表 https://leetcode.cn/problems/rotate-list/
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || head.next == null) return head;
+        ListNode tmpNode = head;
+        //求出链表总长度
+        int nodeLength = 1;
+        while (tmpNode.next != null) {
+            tmpNode = tmpNode.next;
+            nodeLength ++;
+        }
+        //链表变成了环
+        tmpNode.next = head;
+        //找到新的头结点,并和前一个节点断开
+        k = k % nodeLength;
+        for (int i = 0; i < nodeLength-k-1; i++) {
+            head = head.next;
+        }
+        ListNode tmp = head;
+        head = head.next;
+        tmp.next = null;
+        return head;
+    }
+
 
 }
