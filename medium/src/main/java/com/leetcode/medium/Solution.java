@@ -657,5 +657,32 @@ public class Solution {
         return dp[grid.length-1][grid[0].length-1];
     }
 
+    /**
+     * 75. 颜色分类 https://leetcode.cn/problems/sort-colors/
+     * 思路: 交换
+     * 条件比较特殊,只存在三种不同的数字,没有必要使用排序算法进行排序,两次遍历,第一次将所有的0放在前面,第二次将所有的1放在前面即可.
+     */
+    public void sortColors(int[] nums) {
+        //p永远指向需要被交换到后面的元素
+        int p = 0;
+        int tmp = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                tmp = nums[i];
+                nums[i] = nums[p];
+                nums[p] = tmp;
+                p ++;
+            }
+        }
+        for (int i = p; i < nums.length; i++) {
+            if (nums[i] == 1) {
+                tmp = nums[i];
+                nums[i] = nums[p];
+                nums[p] = tmp;
+                p ++;
+            }
+        }
+    }
+
 
 }
