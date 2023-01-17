@@ -684,5 +684,29 @@ public class Solution {
         }
     }
 
+    /**
+     * 77. 组合 https://leetcode.cn/problems/combinations/
+     */
+    public List<List<Integer>> combine(int n, int k) {
+        backTracking(1, n, k);
+        return rns;
+    }
+
+    private void backTracking(int startIndex,int endIndex,int k) {
+        //剪枝 降低时间复杂度 执行时间从15ms -> 2ms
+        if (path.size()+endIndex-startIndex+1 < k) {
+            return;
+        }
+        if (path.size() == k) {
+            rns.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = startIndex; i <= endIndex; i++) {
+            path.add(i);
+            backTracking(i+1, endIndex, k);
+            path.removeLast();
+        }
+    }
+
 
 }
