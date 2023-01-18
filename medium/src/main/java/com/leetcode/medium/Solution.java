@@ -686,6 +686,8 @@ public class Solution {
 
     /**
      * 77. 组合 https://leetcode.cn/problems/combinations/
+     * 思路: 标准回溯
+     * 循环中套着递归
      */
     public List<List<Integer>> combine(int n, int k) {
         backTracking(1, n, k);
@@ -704,6 +706,31 @@ public class Solution {
         for (int i = startIndex; i <= endIndex; i++) {
             path.add(i);
             backTracking(i+1, endIndex, k);
+            path.removeLast();
+        }
+    }
+
+    /**
+     * 78. 子集 https://leetcode.cn/problems/subsets/
+     * 思路: 和上面的组合一样,区别在于k有多重情况
+     */
+    public List<List<Integer>> subsets(int[] nums) {
+        for(int k= 0; k<= nums.length;k++) {
+            backTracing(nums,k,0, nums.length-1);
+        }
+        return rns;
+    }
+
+    private void backTracing(int[] nums, int k, int startIndex, int endIndex) {
+        //剪枝
+        if (path.size()+endIndex-startIndex+1 < k) return;
+        if (path.size() == k) {
+            rns.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = startIndex; i <= endIndex; i++) {
+            path.add(nums[i]);
+            backTracing(nums, k, i + 1, endIndex);
             path.removeLast();
         }
     }
