@@ -735,5 +735,27 @@ public class Solution {
         }
     }
 
+    /**
+     * 82. 删除排序链表中的重复元素 II
+     * 思路: 1,虚拟一个头结点 2,遍历所有节点,判断当前节点是否为有效节点,有效则连接 3,最后将最后一个节点断尾
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null) return head;
+        boolean[] bitArr = new boolean[201];
+        ListNode virtualValidHeadNode = new ListNode();
+        ListNode validNode = virtualValidHeadNode;
+        ListNode currentNode = head;
+        while(currentNode != null) {
+            if(!bitArr[currentNode.val+100] && (currentNode.next == null || currentNode.val != currentNode.next.val)) {
+                validNode.next = currentNode;
+                validNode = validNode.next;
+            }
+            bitArr[currentNode.val+100] = true;
+            currentNode = currentNode.next;
+        }
+        validNode.next = null;
+        return virtualValidHeadNode.next;
+    }
+
 
 }
