@@ -757,5 +757,39 @@ public class Solution {
         return virtualValidHeadNode.next;
     }
 
+    /**
+     * 86. 分隔链表 https://leetcode.cn/problems/partition-list/
+     * 例子: 1,4,3,2,5,2 x=3
+     * 思路: 移动
+     * 题目要求保持原来的相对位置,所以不能直接进行重新赋值的操作,先找到第一个小于target的节点,后面遇到小于target的值就移动到左边接续的位置.
+     */
+    public ListNode partition(ListNode head, int x) {
+        int target = x;
+        if(head == null) return head;
+        //创建虚拟头节点
+        ListNode virturalHeadNode = new ListNode();
+        virturalHeadNode.next = head;
+        //声明过程变量
+        ListNode currentEdgeNode = virturalHeadNode, currentRightNode = head.next, currentLeftNode = head;
+        while(currentEdgeNode.next != null) {
+            if(currentEdgeNode.next.val >= target) break;
+            currentEdgeNode = currentEdgeNode.next;
+        }
+        while(currentRightNode != null) {
+            if(currentLeftNode.val >= target && currentRightNode.val < target) {
+                currentLeftNode.next = currentRightNode.next;
+                currentRightNode.next = currentEdgeNode.next;
+                currentEdgeNode.next = currentRightNode;
+                //交换后遍历到下一组节点
+                currentRightNode = currentLeftNode.next;
+                currentEdgeNode = currentEdgeNode.next;
+            }else {
+                currentRightNode = currentRightNode.next;
+                currentLeftNode = currentLeftNode.next;
+            }
+        }
+        return virturalHeadNode.next;
+    }
+
 
 }
