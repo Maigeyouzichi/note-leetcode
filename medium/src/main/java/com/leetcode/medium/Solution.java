@@ -4,8 +4,10 @@ import com.leetcode.base.ListNode;
 import com.leetcode.base.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Stack;
 /**
@@ -789,6 +791,29 @@ public class Solution {
             }
         }
         return virturalHeadNode.next;
+    }
+
+    /**
+     * 128. 最长连续序列 https://leetcode.cn/problems/longest-consecutive-sequence/
+     * 例子: [100,4,200,1,3,2]
+     * 思路: HashMap key:num value:length
+     * 每次都去更新上下边缘num对应的value,中间的num不会影响最大length
+     * 进阶: 并查集
+     */
+    public int longestConsecutive(int[] nums) {
+        Map<Integer,Integer> numWithLen = new HashMap<>();
+        int maxLen = 0,currLen = 0;
+        for(int num: nums) {
+            if(numWithLen.containsKey(num)) continue;
+            int leftLen = numWithLen.getOrDefault(num-1,0);
+            int right = numWithLen.getOrDefault(num+1,0);
+            currLen = leftLen+right+1;
+            maxLen = Math.max(maxLen,currLen);
+            numWithLen.put(num,currLen);
+            numWithLen.put(num-leftLen,currLen);
+            numWithLen.put(num+right,currLen);
+        }
+        return maxLen;
     }
 
 
