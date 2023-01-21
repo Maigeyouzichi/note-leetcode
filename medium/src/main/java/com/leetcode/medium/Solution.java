@@ -816,5 +816,25 @@ public class Solution {
         return maxLen;
     }
 
+    /**
+     * 137. 只出现一次的数字 II https://leetcode.cn/problems/single-number-ii/
+     * 思路: 用一个数组记录元素每一位的数字和,结果对3取模的值就是目标数字所在位的值,二进制转十进制即可.
+     */
+    public int singleNumber(int[] nums) {
+        //将每个数的每个位的数字进行相加,如果能整除3,说明目标数当前位为0,否则说明目标数当前位为1,通过目标数每个位的数字求出其十进制表示
+        int[] bitArray = new int[32];
+        for(int nu: nums) {
+            for(int i = 0; i<32; i++) {
+                int bit = (nu >> i)&1;
+                bitArray[31-i]+=bit;
+            }
+        }
+        int res = 0;
+        for(int i = 0; i< 32; i++) {
+            res += (bitArray[i]%3)<<(31-i);
+        }
+        return res;
+    }
+
 
 }
