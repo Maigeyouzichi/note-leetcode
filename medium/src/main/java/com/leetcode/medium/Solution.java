@@ -836,5 +836,36 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 142. 环形链表 II https://leetcode.cn/problems/linked-list-cycle-ii/
+     * 思路: 快慢指针
+     * 不成环的节点有a个, 成环的节点有b个, 相遇时距离环的距离是x个
+     * 相遇时快指针路径: a + m * b + x
+     * 相遇时慢指针路径: a + n * b + x
+     * (m-2*n) * b = a + x  -> k * b - x = a 即: 围着环转b圈再往回倒x个节点,刚好等于a个节点,所以相遇的时候快指针从head开始即可.
+     *
+     */
+    public ListNode detectCycle(ListNode head) {
+        if(head == null) return null;
+        ListNode fast = head;
+        ListNode slow = head;
+        while(true) {
+            fast = fast.next;
+            slow = slow.next;
+            //防止空指针
+            if(fast== null || slow == null) return null;
+            fast = fast.next;
+            if(fast== null || slow == null) return null;
+            if(fast == slow) break;
+        }
+        //快指针回到head,每次走一个格子,再次相遇就是成环的地方
+        fast = head;
+        while(fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return fast;
+    }
+
 
 }
