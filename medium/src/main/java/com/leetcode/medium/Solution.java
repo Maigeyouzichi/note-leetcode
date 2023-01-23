@@ -867,5 +867,64 @@ public class Solution {
         return fast;
     }
 
+    /**
+     * 148. 排序链表 https://leetcode.cn/problems/sort-list/
+     * 思路: 分治算法
+     * 一个长链表分割成两个小链表,小链表继续分割,最终分割成单个链表,再两两有序合并.
+     */
+    public ListNode sortList(ListNode head) {
+        return sortAndMerge(head);
+    }
+
+    private ListNode sortAndMerge(ListNode node) {
+        //校验
+        if(node ==null ||node.next == null) return node;
+        //分割链表
+        ListNode binaryNode = binaryNode(node);
+        ListNode left = sortAndMerge(node);
+        ListNode right = sortAndMerge(binaryNode);
+        //合并链表
+        return mergeListNode(left,right);
+    }
+
+    //快慢指针找到中间的节点并分割链表
+    private ListNode binaryNode(ListNode node) {
+        ListNode fast = node;
+        ListNode slow = node;
+        while(fast.next!=null && fast.next.next!=null) {
+            fast = fast.next;
+            fast = fast.next;
+            slow = slow.next;
+        }
+        ListNode binaryNode = slow.next;
+        slow.next = null;
+        return binaryNode;
+    }
+
+    //合并两个链表
+    private ListNode mergeListNode(ListNode left,ListNode right) {
+        ListNode head = new ListNode();
+        ListNode curr = head;
+        while(left!=null || right!=null) {
+            if(left==null) {
+                curr.next = right;
+                break;
+            }
+            if(right == null) {
+                curr.next = left;
+                break;
+            }
+            if(left.val > right.val) {
+                curr.next = right;
+                right = right.next;
+            }else{
+                curr.next = left;
+                left = left.next;
+            }
+            curr = curr.next;
+        }
+        return head.next;
+    }
+
 
 }
