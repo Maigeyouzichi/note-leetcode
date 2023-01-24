@@ -926,5 +926,37 @@ public class Solution {
         return head.next;
     }
 
+    /**
+     * 150. 逆波兰表达式求值 https://leetcode.cn/problems/evaluate-reverse-polish-notation/
+     * 思路: stack
+     */
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        int numA = 0;
+        int numB = 0;
+        for(String str: tokens) {
+            if(str.equals("+")) {
+                numA = stack.pop();
+                numB = stack.pop();
+                stack.push(numB+numA);
+            }else if(str.equals("-")) {
+                numA = stack.pop();
+                numB = stack.pop();
+                stack.push(numB-numA);
+            }else if(str.equals("*")) {
+                numA = stack.pop();
+                numB = stack.pop();
+                stack.push(numB*numA);
+            }else if(str.equals("/")) {
+                numA = stack.pop();
+                numB = stack.pop();
+                stack.push(numB/numA);
+            }else {
+                stack.push(Integer.valueOf(str));
+            }
+        }
+        return stack.pop();
+    }
+
 
 }
