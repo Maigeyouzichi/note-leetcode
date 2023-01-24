@@ -998,5 +998,23 @@ public class Solution {
         return null;
     }
 
+    /**
+     * 189. 轮转数组 https://leetcode.cn/problems/rotate-array/
+     * 思路: 复制数组
+     * 找到边界下标,复制数组,重新为原数组赋值
+     */
+    public void rotate(int[] nums, int k) {
+        int[] copyArray = Arrays.copyOfRange(nums, 0, nums.length);
+        int edgeIndex = nums.length - k % (nums.length), currentIndex = 0;
+        for (int i = edgeIndex; i < nums.length; i++) {
+            nums[currentIndex] = copyArray[i];
+            currentIndex++;
+        }
+        for (int i = 0; i < edgeIndex; i++) {
+            nums[currentIndex] = copyArray[i];
+            currentIndex++;
+        }
+    }
+
 
 }
