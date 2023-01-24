@@ -958,5 +958,25 @@ public class Solution {
         return stack.pop();
     }
 
+    /**
+     * 152. 乘积最大子数组 https://leetcode.cn/problems/maximum-product-subarray/
+     * 思路: 遍历
+     * 乘积最大无非要考虑两个因素,一个是0的情况,一个是结果为负数的情况
+     * 1, 如果是0,就变成1,这样结果是合理的
+     * 2, 前后各跑一遍,就避免了结果为负数导致的情况,比如: 第一个数字是-1,后面都是正数,从前遍历结果为负数,从后遍历结果就是正数
+     */
+    public int maxProduct(int[] nums) {
+        int rnsLeft = 0, rnsRight = 0 , rns = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            if (rnsLeft == 0) { rnsLeft = 1; }
+            rnsLeft *= nums[i];
+            rns = Math.max(rns, rnsLeft);
+            if (rnsRight == 0) { rnsRight = 1; }
+            rnsRight *= nums[nums.length - 1 - i];
+            rns = Math.max(rns, rnsRight);
+        }
+        return rns;
+    }
+
 
 }
