@@ -978,5 +978,25 @@ public class Solution {
         return rns;
     }
 
+    /**
+     * 167. 两数之和 II - 输入有序数组 https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/
+     * 思路: 双指针
+     * 两个指针相向遍历,找到目标index
+     */
+    public int[] twoSum(int[] numbers, int target) {
+        int left = 0, right = numbers.length -1;
+        while (left < right) {
+            int sum = numbers[left]+numbers[right];
+            if (sum == target) {
+                return new int[]{left+1,right+1};
+            }else if (sum > target) {
+                right --;
+            }else {
+                left ++;
+            }
+        }
+        return null;
+    }
+
 
 }
