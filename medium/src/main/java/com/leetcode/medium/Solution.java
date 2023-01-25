@@ -5,10 +5,12 @@ import com.leetcode.base.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Stack;
 /**
  * @author lihao on 2022/12/26
@@ -1031,6 +1033,42 @@ public class Solution {
             dp[i] = Math.max(dp[i-2]+nums[i],dp[i-1]);
         }
         return dp[nums.length-1];
+    }
+
+    /**
+     * 207. 课程表 https://leetcode.cn/problems/course-schedule/
+     * 思路: 拓扑排序
+     * 0,全部课程(节点)会生成一张有向无环图 1,准备邻接表(某个node的全部后续node) 2,准备入度表 3,准备队列,存储满足遍历条件的node 4,入度为0即可加入队列 5,最后判断是否存在未遍历到的节点
+     */
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        //本质上还是判断是否存在环
+        //拓扑排序--BFS
+        //邻接表
+        HashSet<Integer>[] adjacencyTable = new HashSet[numCourses];
+        //入度表
+        int[] inDegreeTable = new int[numCourses];
+        //返回序列省略 .. 只需要判断是否存在环即可,不需要得到拓扑序列
+        Queue<Integer> visitedQueue = new LinkedList<>();//没有检索用LinkedList,存在检索用ArrayDeque
+        int pollCount = 0;
+        for(int i=0;i<numCourses;i++) {
+            adjacencyTable[i] = new HashSet<>();
+        }
+        for(int[] degree: prerequisites) {
+            inDegreeTable[degree[0]]++;
+            adjacencyTable[degree[1]].add(degree[0]);
+        }
+        for(int i=0;i<numCourses;i++) {
+            if(inDegreeTable[i] == 0) visitedQueue.offer(i);
+        }
+        while(!visitedQueue.isEmpty()) {
+            int currentNode = visitedQueue.poll();
+            pollCount++;
+            for(int nextNode : adjacencyTable[currentNode]) {
+                inDegreeTable[nextNode]--;
+                if(inDegreeTable[nextNode]==0) visitedQueue.offer(nextNode);
+            }
+        }
+        return pollCount == numCourses;
     }
 
 
