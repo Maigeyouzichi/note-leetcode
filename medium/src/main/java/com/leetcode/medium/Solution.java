@@ -1071,5 +1071,43 @@ public class Solution {
         return pollCount == numCourses;
     }
 
+    /**
+     * 210. 课程表 II https://leetcode.cn/problems/course-schedule-ii/
+     * 思路: 拓扑排序
+     * 和上面的课程表题目一样, 只不过多出了结果的输出步骤.
+     */
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        HashSet<Integer>[] adjacencyArr = new HashSet[numCourses];
+        int[] inDegreeArr = new int[numCourses];
+        Queue<Integer> queue = new LinkedList<>();
+        int[] rns = new int[numCourses];
+        int index = 0;
+        //遍历接续关系集合,构建邻接数组和入度数组
+        for(int i=0;i<numCourses;i++) {
+            adjacencyArr[i] = new HashSet<>();
+        }
+        for(int[] edge: prerequisites) {
+            adjacencyArr[edge[1]].add(edge[0]);
+            inDegreeArr[edge[0]]++;
+        }
+        //遍历邻接表,将入度为0的结果加入队列
+        for(int i=0;i<numCourses;i++) {
+            if(inDegreeArr[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            Integer head = queue.poll();
+            rns[index++] = head;
+            HashSet<Integer> nodes = adjacencyArr[head];
+            for(int node: nodes) {
+                inDegreeArr[node]--;
+                if(inDegreeArr[node]==0) { queue.offer(node); }
+            }
+        }
+        if(index != numCourses) return new int[0];
+        return rns;
+    }
+
 
 }
