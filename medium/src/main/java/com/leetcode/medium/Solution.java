@@ -1109,5 +1109,28 @@ public class Solution {
         return rns;
     }
 
+    /**
+     * 213. 打家劫舍 II https://leetcode.cn/problems/house-robber-ii/
+     * 思路: 动态规划
+     * 和打家劫舍区别在于房子是成环的,考虑第一个房子就不考虑最后一个房子,考虑最后一个房子就不考虑第一个房子
+     */
+    public int rob2(int[] nums) {
+        int len = nums.length;
+        if(len == 1) return nums[0];
+        if(len == 2) return Math.max(nums[0],nums[1]);
+        return Math.max(invokeRob(nums,0,len-2), invokeRob(nums,1,len-1));
+    }
+
+    //分开考虑 0~n-1 和 1~n 的结果
+    private int invokeRob(int[] nums, int startIndex, int endIndex) {
+        int[] dp = new int[nums.length-1];
+        dp[0] = nums[startIndex];
+        dp[1] = Math.max(nums[startIndex],nums[startIndex+1]);
+        for(int i= 2;i<endIndex-startIndex+1;i++) {
+            dp[i] = Math.max(dp[i-2]+nums[startIndex+i],dp[i-1]);
+        }
+        return dp[nums.length-2];
+    }
+
 
 }
