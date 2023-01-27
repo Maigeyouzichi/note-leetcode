@@ -1132,5 +1132,20 @@ public class Solution {
         return dp[nums.length-2];
     }
 
+    /**
+     * 215. 数组中的第K个最大元素 https://leetcode.cn/problems/kth-largest-element-in-an-array/submissions/
+     * 思路: 计数排序
+     * 使用数组记录元素的值和数量,然后从后往前遍历即可.
+     */
+    public int findKthLargest(int[] nums, int k) {
+        int[] countArr = new int[20001];
+        for(int num: nums) { countArr[num+10000]++; }
+        for(int i= countArr.length-1;i>=0;i--) {
+            k -= countArr[i];
+            if(k <= 0) return i-10000;
+        }
+        return 0;
+    }
+
 
 }
