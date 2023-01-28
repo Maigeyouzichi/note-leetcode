@@ -1156,5 +1156,29 @@ public class Solution {
         node.next = node.next.next;
     }
 
-
+    /**
+     * 260. 只出现一次的数字 III https://leetcode.cn/problems/single-number-iii/
+     * 思路: 二进制,所有数字相同的位的数字进行异或,结果不为0的位可以作为判断标准去将元素分组,当前位为0的一组,为1的一组,分别进行异或,得到结果
+     */
+    public int[] singleNumber3(int[] nums) {
+        int xor = 0 , index = 0;
+        for(int i=0;i< 32;i++) {
+            for(int nu: nums) {
+                xor ^= (nu >> i & 1);
+            }
+            if(xor != 0) {
+                index = i;
+                break;
+            }
+        }
+        int rns_a = 0, rns_b = 0;
+        for(int num: nums) {
+            if(((num>>index)&1) == 0) {
+                rns_a^= num;
+            }else {
+                rns_b ^= num;
+            }
+        }
+        return new int[]{rns_a,rns_b};
+    }
 }
