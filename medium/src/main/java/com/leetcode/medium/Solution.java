@@ -1147,5 +1147,14 @@ public class Solution {
         return 0;
     }
 
+    /**
+     * 237. 删除链表中的节点 https://leetcode.cn/problems/delete-node-in-a-linked-list/
+     * 思路: 题目约定要删除的节点不是末尾节点,可以将下个节点的值赋予当期节点,同时将next节点剔除当前链表中.
+     */
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
 
 }
