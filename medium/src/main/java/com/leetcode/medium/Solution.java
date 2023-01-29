@@ -1228,4 +1228,25 @@ public class Solution {
             }
         }
     }
+
+    /**
+     * 322. 零钱兑换 https://leetcode.cn/problems/coin-change/
+     * 思路: 动态规划,完全背包问题
+     * dp[i]表示组成和为i需要的最少的硬币的个数,coins[i]最小是1,可以将dp数组中全部设为count+1
+     * dp[i] = Math.min(dp[i],dp[i-coin]+1)
+     */
+    public int coinChange(int[] coins, int amount) {
+        //dp[i]表示组成和为i需要的最少的硬币的个数
+        int max = amount+1;
+        int[] dp = new int[amount+1];
+        Arrays.fill(dp,max);
+        dp[0] = 0;
+        for(int i=1;i<amount+1;i++) {
+            for(int val: coins) {
+                if(val > i) continue;
+                dp[i] = Math.min(dp[i],dp[i-val]+1);
+            }
+        }
+        return dp[amount]>amount?-1:dp[amount];
+    }
 }
