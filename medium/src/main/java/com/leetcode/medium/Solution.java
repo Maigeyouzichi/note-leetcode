@@ -1206,4 +1206,26 @@ public class Solution {
         }
         return 0;
     }
+
+    /**
+     * 287. 寻找重复数 https://leetcode.cn/problems/find-the-duplicate-number/
+     * 思路: 快慢指针(龟兔赛跑)
+     * 类似环形链表的解法,有两个index指向同一个value,所以链表一定是成环的
+     */
+    public int findDuplicate(int[] nums) {
+        int fast = 0;
+        int slow = 0;
+        while(true) {
+            fast = nums[nums[fast]];
+            slow = nums[slow];
+            if(fast == slow) {
+                fast = 0;
+                while(fast != slow) {
+                    fast = nums[fast];
+                    slow = nums[slow];
+                }
+                return slow;
+            }
+        }
+    }
 }
