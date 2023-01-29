@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 /**
  * @author lihao on 2022/12/26
@@ -1180,5 +1181,29 @@ public class Solution {
             }
         }
         return new int[]{rns_a,rns_b};
+    }
+
+    /**
+     * 264. 丑数 II https://leetcode.cn/problems/ugly-number-ii/
+     * 思路: 优先队列
+     * 从1开始,每次出队列的时候,当前元素分别乘以1,3,5并发放入队列,无限循环,直到第n个数从队列中取出
+     * tips: 1,防止溢出,使用Long型 2,使用Set防止重复数据加入队列
+     */
+    public int nthUglyNumber(int n) {
+        PriorityQueue<Long> pq = new PriorityQueue<>();
+        Set<Long> set = new HashSet<>();
+        Long[] arr = {2L,3L,5L};
+        pq.offer(1L);
+        int count = 0;
+        while(!pq.isEmpty()) {
+            Long curr = pq.poll();
+            count ++;
+            if(count == n) return Math.toIntExact(curr);
+            for(Long num: arr) {
+                Long tmp = curr*num;
+                if(set.add(tmp)) pq.offer(tmp);
+            }
+        }
+        return 0;
     }
 }
