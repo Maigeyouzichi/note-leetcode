@@ -1265,4 +1265,25 @@ public class Solution {
         }
         return res*n;
     }
+
+    /**
+     * 347. 前 K 个高频元素 https://leetcode.cn/problems/top-k-frequent-elements/
+     * 思路: 小顶堆
+     */
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int num: nums) {
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> map.get(o1)-map.get(o2));
+        for(Map.Entry<Integer,Integer> entry: map.entrySet()) {
+            pq.offer(entry.getKey());
+            if(pq.size()>k) pq.poll();
+        }
+        int[] rns = new int[k];
+        for(int i=0;i<k;i++) {
+            rns[i] = pq.poll();
+        }
+        return rns;
+    }
 }
