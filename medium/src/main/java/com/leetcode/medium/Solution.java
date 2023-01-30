@@ -1249,4 +1249,20 @@ public class Solution {
         }
         return dp[amount]>amount?-1:dp[amount];
     }
+
+    /**
+     * 343. 整数拆分 https://leetcode.cn/problems/integer-break/
+     * 思路: 数学定理(当n大于4开始,拆成足够多的3即可)
+     */
+    public int integerBreak(int n) {
+        if(n < 4) {
+            return n-1;
+        }
+        int res = 1;
+        while(n > 4) {
+            res *= 3;
+            n -= 3;
+        }
+        return res*n;
+    }
 }
