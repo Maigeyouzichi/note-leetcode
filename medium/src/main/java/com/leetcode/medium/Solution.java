@@ -1286,4 +1286,35 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * 376. 摆动序列 https://leetcode.cn/problems/wiggle-subsequence/
+     * 思路: 遍历
+     * 两两相减结果写入数组,遍历数组正负相同跳过,记录正负不同的组数,得出结果
+     */
+    public int wiggleMaxLength(int[] nums) {
+        if(nums.length == 1) return 1;
+        int[] diffArr = new int[nums.length];
+        int left = 0, right = 1, index = 0;
+        while(right < nums.length) {
+            if(nums[right] != nums[left]) {
+                diffArr[index++] = nums[right]-nums[left];
+                left = right;
+            }
+            right++;
+        }
+        if(diffArr[0] == 0) return 1;
+        int count = 0;
+        left = 0;
+        right = 1;
+        while(right < diffArr.length) {
+            if(diffArr[right]==0) break;
+            if(diffArr[left]*diffArr[right]<0) {
+                count++;
+                left = right;
+            }
+            right++;
+        }
+        return count+2;
+    }
 }
