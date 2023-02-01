@@ -1359,4 +1359,21 @@ public class Solution {
         }
         return pre;
     }
+
+    /**
+     * 453. 最小操作次数使数组元素相等 https://leetcode.cn/problems/minimum-moves-to-equal-array-elements/
+     * 思路: 数学
+     * 每次n-1个元素都+1 等同于 每次1个元素-1, 这样所有的元素都减至和最小值一样即可
+     */
+    public int minMoves(int[] nums) {
+        int min = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            min = Math.min(min,nums[i]);
+        }
+        int res = 0;
+        for (int num : nums) {
+            res += num - min;
+        }
+        return res;
+    }
 }
