@@ -329,13 +329,13 @@ public class Solution {
         if (i ==0 && j ==0) {
             i --;
         }
-        reverse(nums,i+1,nums.length-1);
+        reverseNodeList(nums,i+1,nums.length-1);
     }
 
     /**
      * 根据index两两交换元素
      */
-    private void reverse(int[] nums, int i, int j) {
+    private void reverseNodeList(int[] nums, int i, int j) {
         while (i < j) {
             swap(nums,i, j);
             i ++;
@@ -1316,5 +1316,47 @@ public class Solution {
             right++;
         }
         return count+2;
+    }
+
+    /**
+     * 445. 两数相加 II https://leetcode.cn/problems/add-two-numbers-ii/
+     * 思路: 分别进行翻转链表 -> 计算 -> 再次对结果进行翻转链表
+     */
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+        ListNode node1 = reverseNodeList(l1);
+        ListNode node2 = reverseNodeList(l2);
+        ListNode rns = new ListNode();
+        ListNode tmp = rns;
+        int k = 0;
+        while(node1!= null || node2 != null) {
+            int num1 = node1 == null? 0: node1.val;
+            int num2 = node2 == null? 0: node2.val;
+            int val = (num1+num2+k)%10;
+            k = (num1+num2+k)/10;
+            tmp.next = new ListNode(val);
+            tmp = tmp.next;
+            if(node1 != null) node1 = node1.next;
+            if(node2 != null) node2 = node2.next;
+        }
+        if(k>0) {
+            tmp.next = new ListNode(k);
+        }
+        return reverseNodeList(rns.next);
+    }
+
+    /**
+     * 翻转链表
+     */
+    private ListNode reverseNodeList(ListNode node) {
+        ListNode pre = null;
+        ListNode curr = node;
+        ListNode next = node.next;
+        while(curr != null) {
+            next = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+        return pre;
     }
 }
