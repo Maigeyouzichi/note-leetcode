@@ -1445,4 +1445,40 @@ public class Solution {
         }
         return count;
     }
+
+    /**
+     * 649. Dota2 参议院 https://leetcode.cn/problems/dota2-senate/
+     * 思路: 贪心算法
+     * 博弈逻辑:每次按照顺序就近投死对手,投完准备下一轮投票,优先投后面的,后面没有就投前面的
+     * 准备两个队列,分别对应天辉和夜魇,如果没出局投完票继续加入队列
+     */
+    public String predictPartyVictory(String senate) {
+        int len = senate.length();
+        char[] charArray = senate.toCharArray();
+        LinkedList<Integer> queue_D = new LinkedList<>();
+        LinkedList<Integer> queue_R = new LinkedList<>();
+        for (int i = 0; i < len; i++) {
+            if (charArray[i] == 'D') {
+                queue_D.offer(i);
+            } else {
+                queue_R.offer(i);
+            }
+        }
+        while (!queue_R.isEmpty() || !queue_D.isEmpty()) {
+            if (queue_R.isEmpty()) {
+                return "Dire";
+            }
+            if (queue_D.isEmpty()) {
+                return "Radiant";
+            }
+            if (queue_D.peek() < queue_R.peek()) {
+                queue_D.offer(queue_D.poll() + len);
+                queue_R.poll();
+            } else {
+                queue_R.offer(queue_R.poll() + len);
+                queue_D.poll();
+            }
+        }
+        return "";
+    }
 }
