@@ -1376,4 +1376,30 @@ public class Solution {
         }
         return res;
     }
+
+    /**
+     * 494. 目标和 https://leetcode.cn/problems/target-sum/
+     * 思路: todo 有时间再想吧
+     */
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = 0;
+        for(int num: nums) sum += num;
+        int temp = sum + target;//这里写 sum-target 也是可以的
+        if(temp < 0 || (temp&1)==1) return 0;
+        int packageSize = temp/2;
+        //dp[i][j]表示前i个数,可以组成和为j的方案数
+        int[][] dp = new int[nums.length+1][packageSize+1];
+        dp[0][0] = 1;
+        for(int i=1;i<=packageSize;i++) dp[0][i] = 0;
+        for(int i=1;i<=nums.length;i++) {
+            for(int j=0;j<=packageSize;j++) {
+                if(nums[i-1]>j) {
+                    dp[i][j] = dp[i-1][j];
+                }else {
+                    dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i-1]];
+                }
+            }
+        }
+        return dp[nums.length][packageSize];
+    }
 }
