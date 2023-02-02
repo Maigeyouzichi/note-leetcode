@@ -1,5 +1,6 @@
 package com.leetcode.medium;
 
+import com.leetcode.base.DisJointSet;
 import com.leetcode.base.ListNode;
 import com.leetcode.base.TreeNode;
 import java.util.ArrayList;
@@ -1401,5 +1402,27 @@ public class Solution {
             }
         }
         return dp[nums.length][packageSize];
+    }
+
+    /**
+     * 547. 省份数量 https://leetcode.cn/problems/number-of-provinces/
+     * 思路: 并查集
+     * 每个城市节点对应其最上层的父结点,最终父结点的总数就是要求的结果
+     */
+    public int findCircleNum(int[][] isConnected) {
+        DisJointSet jointSet = new DisJointSet(isConnected.length);
+        for (int i = 0; i < isConnected.length; i++) {
+            for (int j = i + 1; j < isConnected.length; j++) {
+                if (isConnected[i][j] == 0) {
+                    continue;
+                }
+                jointSet.union(i, j);
+            }
+        }
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < isConnected.length; i++) {
+            set.add(jointSet.findRoot(i));
+        }
+        return set.size();
     }
 }
