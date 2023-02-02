@@ -1425,4 +1425,24 @@ public class Solution {
         }
         return set.size();
     }
+
+    /**
+     * 560. 和为 K 的子数组 https://leetcode.cn/problems/subarray-sum-equals-k/
+     * 思路: 一次遍历,前缀和以及出现的次数放入map,0-1提前放入map,如果prefix_sum - k的结果也出现在数组中,count+=结果即可
+     */
+    public int subarraySum(int[] nums, int k) {
+        //key:前缀和 value:次数
+        Map<Integer, Integer> map = new HashMap<>();
+        //为了包含index从0开始的子数组,前缀和刚好等于k的时候,count++
+        map.put(0, 1);
+        int count = 0, prefixSum = 0;
+        for (int nu : nums) {
+            prefixSum += nu;
+            if (map.containsKey(prefixSum - k)) {
+                count += map.get(prefixSum - k);
+            }
+            map.put(prefixSum, map.getOrDefault(prefixSum, 0) + 1);
+        }
+        return count;
+    }
 }

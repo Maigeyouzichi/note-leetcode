@@ -38,4 +38,8 @@ public class DisJointSet{
         return x==arr[x] ? x : (arr[x] = findRoot(arr[x]));
     }
 
+    public int[] getArr() {
+        return arr;
+    }
+
 }
