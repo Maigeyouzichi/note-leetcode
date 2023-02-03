@@ -1481,4 +1481,20 @@ public class Solution {
         }
         return "";
     }
+
+    /**
+     * 684. 冗余连接 https://leetcode.cn/problems/redundant-connection/
+     * 思路: 并查集
+     * 遍历的过程填充并查集,当遍历到一组节点已经是属于一组了,直接返回,如果存在多个结果,当前返回也是最后出现的组合.
+     */
+    public int[] findRedundantConnection(int[][] edges) {
+        DisJointSet dis = new DisJointSet(edges.length);
+        for(int[] arr: edges) {
+            int x = arr[0];
+            int y = arr[1];
+            if(dis.findRoot(x)==dis.findRoot(y)) return arr;
+            dis.union(x,y);
+        }
+        return edges[edges.length-1];
+    }
 }
