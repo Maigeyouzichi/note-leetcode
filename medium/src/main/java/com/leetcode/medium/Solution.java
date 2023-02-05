@@ -5,6 +5,7 @@ import com.leetcode.base.ListNode;
 import com.leetcode.base.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1532,5 +1533,24 @@ public class Solution {
             }
         }
         return res;
+    }
+
+    /**
+     * 739. 每日温度 https://leetcode.cn/problems/daily-temperatures/
+     * 思路: 单调栈,栈中元素为数组元素的index
+     * 注: LinkedList可以实现队列,亦可以实现栈
+     */
+    public int[] dailyTemperatures(int[] temperatures) {
+        int[] rns = new int[temperatures.length];
+        Deque<Integer> stack = new LinkedList<Integer>();
+        for(int i=0;i<temperatures.length;i++) {
+            while(!stack.isEmpty() && temperatures[stack.peek()]< temperatures[i]) {
+                //这种不断出栈的结果刚好满足单调栈的应用场景,所以可以使用栈的数据结构,避免堆排序的开销.
+                int index = stack.pop();
+                rns[index] = i-index;
+            }
+            stack.push(i);
+        }
+        return rns;
     }
 }
