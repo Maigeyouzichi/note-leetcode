@@ -1497,4 +1497,40 @@ public class Solution {
         }
         return edges[edges.length-1];
     }
+
+    /**
+     * 720. 词典中最长的单词 https://leetcode.cn/problems/longest-word-in-dictionary/
+     * 遍历
+     * 1,所有元素放入set 2,words进行自然排序 3,遍历数组,当前元素取子串判断
+     */
+    public String longestWord(String[] words) {
+        Set<String> set = new HashSet<>();
+        //所有单词写入set
+        for(int i=0;i<words.length;i++){
+            set.add(words[i]);
+        }
+        int maxLen = 0;
+        String res = "";
+        //排序
+        Arrays.sort(words);
+        //遍历排序后的数组
+        for(int i=0;i<words.length;i++){
+            //如果该字符串长度小于res,直接继续,因为结果是取最长的单词
+            if(words[i].length() <= maxLen) {
+                continue;
+            }
+            boolean flag = true;
+            //判断该单词是否符合要求: 由数组中单词组成
+            for(int j=1;j<words[i].length();j++){
+                flag = set.contains(words[i].substring(0,j));
+                if(!flag) break;
+            }
+            //由于是排好序的,因此结果会取字典索引最小的: 该字典等同于自然排序
+            if(flag) {
+                maxLen = words[i].length();
+                res = words[i];
+            }
+        }
+        return res;
+    }
 }
