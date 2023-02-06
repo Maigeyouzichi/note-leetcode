@@ -1553,4 +1553,38 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * 769. 最多能完成排序的块 https://leetcode.cn/problems/max-chunks-to-make-sorted/
+     * 思路: 贪心
+     * 一个符合要求的块需要满足,index 和 arr[index] 都在这个块中,从第一个元素开始找到当前块的边界即可.
+     */
+    public int maxChunksToSorted(int[] arr) {
+        int currIndex = 0 , count = 0;
+        int[] target = new int[arr.length];
+        for(int i=0;i<arr.length;i++) {
+            target[arr[i]] = i;
+        }
+        while(currIndex<arr.length) {
+            currIndex = nextIndex(arr,target,currIndex)+1;
+            count++;
+        }
+        return count;
+    }
+
+    /**
+     * 根据当前块的起始index,找到当前块的最大的右边界index
+     * @param arr 原始数组
+     * @param target arr数组index和value的关系
+     * @param currIndex 当前index
+     * @return 最大的右边界index
+     */
+    private int nextIndex(int[] arr, int[] target, int currIndex) {
+        int edgeIndex = Math.max(currIndex,target[currIndex]);
+        for(int i=currIndex;i<=edgeIndex;i++) {
+            int nextEdgeIndex = Math.max(i,target[i]);
+            edgeIndex = Math.max(edgeIndex,nextEdgeIndex);
+        }
+        return edgeIndex;
+    }
 }
