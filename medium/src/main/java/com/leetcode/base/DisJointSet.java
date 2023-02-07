@@ -42,4 +42,8 @@ public class DisJointSet{
         return arr;
     }
 
+    public boolean isConnected(int x, int y) {
+        return findRoot(x) == findRoot(y);
+    }
+
 }

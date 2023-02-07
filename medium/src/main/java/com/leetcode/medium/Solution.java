@@ -1587,4 +1587,22 @@ public class Solution {
         }
         return edgeIndex;
     }
+
+    /**
+     * 785. 判断二分图 https://leetcode.cn/problems/is-graph-bipartite/
+     * 思路: 并查集
+     * 如果是二分图,则每组连接关系,index作为起点,所有终点都应该在另外一组,即graph每组元素都应该和index不在一组,
+     * 如果发现index和graph[index]在一组, 则返回false
+     */
+    public boolean isBipartite(int[][] graph) {
+        DisJointSet disJointSet = new DisJointSet(graph.length);
+        for(int i=0;i<graph.length;i++) {
+            int[] array = graph[i];
+            for(int x: array) {
+                if(disJointSet.isConnected(i,x)) return false;
+                disJointSet.union(array[0],x);
+            }
+        }
+        return true;
+    }
 }
