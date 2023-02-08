@@ -1643,4 +1643,29 @@ public class Solution {
         Collections.sort(rns);
         return rns;
     }
+
+    /**
+     * 817. 链表组件 https://leetcode.cn/problems/linked-list-components/
+     * 思路: nums数组作为判断标准,遍历链表,求出结果
+     */
+    public int numComponents(ListNode head, int[] nums) {
+        boolean[] bitArray = new boolean[10001];
+        for(int nu:nums) {
+            bitArray[nu] = true;
+        }
+        boolean flag = false;
+        int count = 0;
+        while(head!=null) {
+            if(bitArray[head.val]) {
+                if(!flag) {
+                    count++;
+                    flag = true;
+                }
+            }else{
+                flag = false;
+            }
+            head = head.next;
+        }
+        return count;
+    }
 }
