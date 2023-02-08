@@ -5,6 +5,7 @@ import com.leetcode.base.ListNode;
 import com.leetcode.base.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1604,5 +1605,42 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    /**
+     * 802. 找到最终的安全状态 https://leetcode.cn/problems/find-eventual-safe-states/
+     * 思路: 拓扑排序
+     * 从安全节点出发反向查找,能唯一遍历到(不存在成环可能性)的节点的集合就是结果
+     */
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        HashSet<Integer>[] adTable = new HashSet[n];
+        int[] inDegree = new int[n];
+        List<Integer> rns = new ArrayList<Integer>();
+        Queue<Integer> needVisitQueue = new LinkedList<>();
+        for(int i=0;i<n;i++) {
+            adTable[i] = new HashSet<>();
+        }
+        //这段逻辑体现倒置的有向边关系
+        for(int i=0;i<n;i++) {
+            for(int node: graph[i]) {
+                adTable[node].add(i);
+                inDegree[i]++;
+            }
+        }
+        for(int i=0;i<n;i++) {
+            if(inDegree[i] == 0) needVisitQueue.offer(i);
+        }
+        while(!needVisitQueue.isEmpty()) {
+            int currentNode = needVisitQueue.poll();
+            rns.add(currentNode);
+            for(int node: adTable[currentNode]) {
+                inDegree[node]--;
+                if(inDegree[node] == 0) needVisitQueue.offer(node);
+            }
+        }
+        //List排序简单写法
+        Collections.sort(rns);
+        return rns;
     }
 }
