@@ -1668,4 +1668,38 @@ public class Solution {
         }
         return count;
     }
+
+    /**
+     * 851. 喧闹和富有 https://leetcode.cn/problems/loud-and-rich/
+     * 思路: 拓扑排序
+     * 题目意思就是找到比目标元素更有钱的人里面最低调的那个.从最有钱的出发进行广度优先遍历,每个节点和前置节点(更有钱)比较,
+     * 比前置节点更有钱的节点(包括自身)中最低调的,如果比当前节点更低调,就更改当前节点对应数组中的结果
+     */
+    public int[] loudAndRich(int[][] richer, int[] quiet) {
+        int num = quiet.length;
+        HashSet<Integer>[] adjacencyTable = new HashSet[num];
+        int[] inDegree = new int[num];
+        Queue<Integer> visitedQueue = new LinkedList<>();
+        int[] rns = new int[num];
+        for(int i=0;i<num;i++) {
+            adjacencyTable[i] = new HashSet<>();
+        }
+        for(int[] degree: richer) {
+            adjacencyTable[degree[0]].add(degree[1]);
+            inDegree[degree[1]]++;
+        }
+        for(int i=0;i<num;i++) {
+            rns[i]=i;
+            if(inDegree[i] == 0) visitedQueue.offer(i);
+        }
+        while(!visitedQueue.isEmpty()) {
+            int head = visitedQueue.poll();
+            for(int node: adjacencyTable[head]) {
+                if(quiet[rns[node]] > quiet[rns[head]]) rns[node] = rns[head];
+                inDegree[node]--;
+                if(inDegree[node] == 0) visitedQueue.offer(node);
+            }
+        }
+        return rns;
+    }
 }
