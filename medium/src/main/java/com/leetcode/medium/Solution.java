@@ -1702,4 +1702,27 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * 856. 括号的分数 https://leetcode.cn/problems/score-of-parentheses/
+     * 思路: 遍历
+     * 没有必要使用栈,浪费不必要的空间,每组最深的括弧的计算结果相加即可,每个第一次出现的右括弧的深度进行计算.
+     */
+    public int scoreOfParentheses(String s) {
+        boolean flag = false;
+        int deep = 0, rns = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                deep++;
+                flag = true;
+            } else {
+                if (flag) {
+                    rns += 1 << (deep - 1);
+                }
+                deep--;
+                flag = false;
+            }
+        }
+        return rns;
+    }
 }
