@@ -1786,7 +1786,7 @@ public class Solution {
     }
 
     /**
-     * 最少交换次数来组合所有的 1 II https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/submissions/
+     * 2134.最少交换次数来组合所有的 1 II https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/submissions/
      * 思路: 滑动窗口, 环形数组根据长度取模即可
      */
     public int minSwaps(int[] nums) {
@@ -1809,5 +1809,25 @@ public class Solution {
             right++;
         }
         return result;
+    }
+
+    /**
+     * 2181. 合并零之间的节点 https://leetcode.cn/problems/merge-nodes-in-between-zeros/
+     * 思路: 遍历
+     */
+    public ListNode mergeNodes(ListNode head) {
+        ListNode virtualHead = new ListNode(), curr = virtualHead;
+        int tmpSum = 0;
+        while(head != null) {
+            if(head.val == 0 && tmpSum > 0) {
+                curr.next = new ListNode(tmpSum);
+                curr = curr.next;
+                tmpSum = 0;
+            }else if(head.val > 0) {
+                tmpSum += head.val;
+            }
+            head = head.next;
+        }
+        return virtualHead.next;
     }
 }
