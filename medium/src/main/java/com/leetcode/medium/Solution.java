@@ -1728,6 +1728,8 @@ public class Solution {
 
     /**
      * 1319. 连通网络的操作次数 https://leetcode.cn/problems/number-of-operations-to-make-network-connected/
+     * 思路: 并查集
+     * 1,根据线的数量和节点的数量判断连接的可能性 2,根据并查集判断组数,返回组数-1
      */
     public int makeConnected(int n, int[][] connections) {
         if (connections.length < n-1) { return -1; }
@@ -1740,5 +1742,17 @@ public class Solution {
             hashSet.add(jointSet.findRoot(num));
         }
         return hashSet.size() - 1;
+    }
+
+    /**
+     * 1551. 使数组中所有元素相等的最小操作数 https://leetcode.cn/problems/minimum-operations-to-make-array-equal/
+     * 思路: 数组最小值和最大值的和除2的结果就是n,n左边的值变成n需要累加的总和就是结果
+     */
+    public int minOperations(int n) {
+        int rns = 0;
+        for(int i=1;i<n;i+=2) {
+            rns += (n-i);
+        }
+        return rns;
     }
 }
