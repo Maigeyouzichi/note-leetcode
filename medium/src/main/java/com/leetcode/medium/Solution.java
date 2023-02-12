@@ -1725,4 +1725,20 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * 1319. 连通网络的操作次数 https://leetcode.cn/problems/number-of-operations-to-make-network-connected/
+     */
+    public int makeConnected(int n, int[][] connections) {
+        if (connections.length < n-1) { return -1; }
+        DisJointSet jointSet = new DisJointSet(n);
+        for (int[] connection : connections) {
+            jointSet.union(connection[0],connection[1]);
+        }
+        Set<Integer> hashSet = new HashSet<>();
+        for (int num : jointSet.getArr()) {
+            hashSet.add(jointSet.findRoot(num));
+        }
+        return hashSet.size() - 1;
+    }
 }
