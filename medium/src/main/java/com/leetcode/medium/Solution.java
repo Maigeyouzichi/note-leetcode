@@ -1768,4 +1768,20 @@ public class Solution {
         }
         return max;
     }
+
+    /**
+     * 1769. 移动所有球到每个盒子所需的最小操作数 https://leetcode.cn/problems/minimum-number-of-operations-to-move-all-balls-to-each-box/
+     * 思路: 遍历
+     */
+    public int[] minOperations(String boxes) {
+        char[] charArr = boxes.toCharArray();
+        int[] rns = new int[charArr.length];
+        for(int i=0;i<charArr.length;i++) {
+            if(charArr[i] == '0') continue;
+            for(int j=0;j<rns.length;j++) {
+                rns[j] += (Math.abs(i-j));
+            }
+        }
+        return rns;
+    }
 }
