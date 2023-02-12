@@ -1755,4 +1755,17 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * 1689. 十-二进制数的最少数目 https://leetcode.cn/problems/partitioning-into-minimum-number-of-deci-binary-numbers/
+     * 思路: 题目等同于寻找最大的数字
+     */
+    public int minPartitions(String n) {
+        int max = 0;
+        char[] charArr = n.toCharArray();
+        for(char c: charArr) {
+            max = Math.max(max,(c-'0'));
+        }
+        return max;
+    }
 }
