@@ -1830,4 +1830,29 @@ public class Solution {
         }
         return virtualHead.next;
     }
+
+    /**
+     * 2316. 统计无向图中无法互相到达点对数 https://leetcode.cn/problems/count-unreachable-pairs-of-nodes-in-an-undirected-graph/
+     * 思路: 并查集
+     * 分组之后,单向计算结果
+     */
+    public long countPairs(int n, int[][] edges) {
+        DisJointSet jointSet = new DisJointSet(n);
+        for (int[] edge : edges) {
+            jointSet.union(edge[0],edge[1]);
+        }
+        int[] countArr = new int[n];
+        for (int i = 0; i < n; i++) {
+            countArr[jointSet.findRoot(i)]++;
+        }
+        //重点是这种计算的方法,可以把双重for循环的时间复杂度从n的平方变成n
+        //适用于这种组合数的计算场景
+        long rns = 0, currentSum = 0;
+        for (int num : countArr) {
+            if (num == 0) continue;
+            rns += num * currentSum;
+            currentSum += num;
+        }
+        return rns;
+    }
 }
