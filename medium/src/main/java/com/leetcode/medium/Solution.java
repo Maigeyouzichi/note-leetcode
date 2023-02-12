@@ -1855,4 +1855,25 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * LCP 67. 装饰树 https://leetcode.cn/problems/KnLfVT/
+     * 思路: 递归
+     * expandBinaryTree(T t)方法返回传入的TreeNode节点
+     */
+    public TreeNode expandBinaryTree(TreeNode root) {
+        //从前往后递归
+        if(root == null) return null;
+        TreeNode left = root.left;
+        if(left != null) {
+            root.left = new TreeNode(-1);
+            root.left.left = expandBinaryTree(left);//递归方法返回自身
+        }
+        TreeNode right = root.right;
+        if(right != null) {
+            root.right = new TreeNode(-1);
+            root.right.right = expandBinaryTree(right);
+        }
+        return root;
+    }
 }
