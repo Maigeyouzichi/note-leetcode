@@ -1784,4 +1784,30 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * 最少交换次数来组合所有的 1 II https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii/submissions/
+     * 思路: 滑动窗口, 环形数组根据长度取模即可
+     */
+    public int minSwaps(int[] nums) {
+        int left=0,right=0,len=nums.length,oneValueCount = 0,windowCount = 0,result = Integer.MAX_VALUE;
+        //1的个数
+        for (int num : nums) {
+            oneValueCount+=num;
+        }
+        //窗口长度-1的长度内,1的总和
+        while (right<oneValueCount-1) {
+            windowCount+=nums[right++];
+        }
+        //开启滑动窗口
+        while (left < len) {
+            windowCount += nums[right%len];
+            //0的个数就是需要交换的次数
+            result = Math.min(result,oneValueCount-windowCount);
+            windowCount -= nums[left];
+            left++;
+            right++;
+        }
+        return result;
+    }
 }
