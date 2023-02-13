@@ -2009,4 +2009,26 @@ public class Solution {
             bitArr[i] = false;
         }
     }
+
+    /**
+     * 面试题 17.09. 第 k 个数 https://leetcode.cn/problems/get-kth-magic-number-lcci/submissions/
+     * 思路: 优先队列 -- 第k次从队列中取出的数字就是结果
+     */
+    public int getKthMagicNumber(int k) {
+        //注意考虑经度问题, 只对需要返回的数字进行转型处理,在计算的时候仍然使用原long型进行计算.
+        PriorityQueue<Long> pq = new PriorityQueue<>();
+        pq.offer(1L);
+        long[] arr = {3,5,7};
+        Set<Long> set = new HashSet<>();
+        int rns = 1;
+        for(int i=0;i<k;i++) {
+            long curr = pq.poll();
+            rns = (int) curr;
+            for(long nu: arr) {
+                long next = nu * curr;
+                if (set.add(next)) pq.offer(next);
+            }
+        }
+        return rns;
+    }
 }
