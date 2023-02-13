@@ -1165,25 +1165,25 @@ public class Solution {
      * 思路: 二进制,所有数字相同的位的数字进行异或,结果不为0的位可以作为判断标准去将元素分组,当前位为0的一组,为1的一组,分别进行异或,得到结果
      */
     public int[] singleNumber3(int[] nums) {
-        int xor = 0 , index = 0;
-        for(int i=0;i< 32;i++) {
-            for(int nu: nums) {
-                xor ^= (nu >> i & 1);
-            }
-            if(xor != 0) {
-                index = i;
-                break;
-            }
+        //如果目标数组中只有一个目标数字,使用异或直接可以求出,现在是两个异或,考虑将其进行分组,分组后进行异或.
+        //两个目标数字异或的结果右数第一位为1,即可以认为是两个数字不同的标志,根据这个将所有数字进行分组,就可以在两个
+        //分组中求出目标数字了.
+        int ret = 0,index = 0, res1=0, res2=0;
+        for(int nu: nums) {
+            ret ^= nu;
         }
-        int rns_a = 0, rns_b = 0;
-        for(int num: nums) {
-            if(((num>>index)&1) == 0) {
-                rns_a^= num;
+        while((ret&1) == 0) {
+            index++;
+            ret >>=1;
+        }
+        for(int nu: nums) {
+            if(((nu>>index)&1) == 1) {
+                res1 ^= nu;
             }else {
-                rns_b ^= num;
+                res2 ^=nu;
             }
         }
-        return new int[]{rns_a,rns_b};
+        return new int[]{res1,res2};
     }
 
     /**
