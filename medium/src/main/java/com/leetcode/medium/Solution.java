@@ -1876,4 +1876,18 @@ public class Solution {
         }
         return root;
     }
+
+    /**
+     * 剑指 Offer 63. 股票的最大利润 https://leetcode.cn/problems/gu-piao-de-zui-da-li-run-lcof/
+     * 思路:
+     */
+    public int maxProfit(int[] prices) {
+        int maxProfit = 0;
+        int minPrice = Integer.MAX_VALUE;
+        for (int price : prices) {
+            maxProfit = Math.max(maxProfit, price-minPrice);
+            minPrice = Math.min(minPrice,price);
+        }
+        return maxProfit;
+    }
 }
