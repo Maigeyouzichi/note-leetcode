@@ -2031,4 +2031,39 @@ public class Solution {
         }
         return rns;
     }
+
+    /**
+     * 面试题 17.14. 最小K个数 https://leetcode.cn/problems/smallest-k-lcci/
+     * 思路: 快速排序 -- 没有引入随机性
+     */
+    public int[] smallestK(int[] arr, int k) {
+        quickSort(arr, 0, arr.length-1);
+        return Arrays.copyOfRange(arr, 0, k);
+    }
+
+    /**
+     * 快速排序
+     */
+    private void quickSort(int[] arr, int left, int right) {
+        if (left >= right) return;
+        int currentIndex = partition(arr, left, right);
+        quickSort(arr, left, currentIndex - 1);
+        quickSort(arr, currentIndex + 1, right);
+    }
+
+    /**
+     * 遍历并交换元素
+     * @return 被比较的元素的index
+     */
+    private int partition(int[] arr, int left, int right) {
+        //指定被比较的元素
+        int target = arr[right];
+        int currentIndex = left;
+        for (int i = left; i < right; i++) {
+            if (arr[i] > target) { continue; }
+            swap(arr, i, currentIndex++);
+        }
+        swap(arr, currentIndex, right);
+        return currentIndex;
+    }
 }
