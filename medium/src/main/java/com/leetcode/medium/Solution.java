@@ -1899,4 +1899,24 @@ public class Solution {
     public int sumNums(int n) {
         return n == 1 ? 1 : n + sumNums(n - 1);
     }
+
+    /**
+     * 540. 有序数组中的单一元素 https://leetcode.cn/problems/single-element-in-a-sorted-array/
+     * 思路: 二分
+     */
+    public int singleNonDuplicate(int[] nums) {
+        int leftIndex = 0, rightIndex = nums.length - 1, midIndex;
+        while (leftIndex < rightIndex) {
+            midIndex = leftIndex + (rightIndex - leftIndex) / 2;
+            if ((midIndex&1) == 1) {
+                midIndex--;//目标index一定是偶数
+            }
+            if (nums[midIndex] == nums[midIndex + 1]) {
+                leftIndex = midIndex + 2;
+            } else {
+                rightIndex = midIndex;
+            }
+        }
+        return nums[leftIndex];
+    }
 }
