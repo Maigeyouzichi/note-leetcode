@@ -1162,7 +1162,8 @@ public class Solution {
 
     /**
      * 260. 只出现一次的数字 III https://leetcode.cn/problems/single-number-iii/
-     * 思路: 二进制,所有数字相同的位的数字进行异或,结果不为0的位可以作为判断标准去将元素分组,当前位为0的一组,为1的一组,分别进行异或,得到结果
+     * 思路: 二进制
+     * 全部异或,找到可以分组的bit位,根据bit位将元素分成2组,分别异或即可求出结果
      */
     public int[] singleNumber3(int[] nums) {
         //如果目标数组中只有一个目标数字,使用异或直接可以求出,现在是两个异或,考虑将其进行分组,分组后进行异或.
@@ -1879,7 +1880,7 @@ public class Solution {
 
     /**
      * 剑指 Offer 63. 股票的最大利润 https://leetcode.cn/problems/gu-piao-de-zui-da-li-run-lcof/
-     * 思路:
+     * 思路: 动态规划
      */
     public int maxProfit(int[] prices) {
         int maxProfit = 0;
@@ -1889,5 +1890,13 @@ public class Solution {
             minPrice = Math.min(minPrice,price);
         }
         return maxProfit;
+    }
+
+    /**
+     * 剑指 Offer 64. 求1+2+…+n https://leetcode.cn/problems/qiu-12n-lcof/
+     * 思路: 递归
+     */
+    public int sumNums(int n) {
+        return n == 1 ? 1 : n + sumNums(n - 1);
     }
 }
