@@ -1919,4 +1919,33 @@ public class Solution {
         }
         return nums[leftIndex];
     }
+
+    /**
+     * 剑指 Offer II 115. 重建序列 https://leetcode.cn/problems/ur2n8P/
+     * 思路: 拓扑排序 -- 邻接表
+     */
+    public boolean sequenceReconstruction(int[] nums, int[][] sequences) {
+        //思路: sequences组成的图关系中,nums可以依次走完,即返回true
+        // 如果想要nums唯一,每个元素的位置都要固定
+        HashSet<Integer>[] adTable = new HashSet[nums.length + 1];
+        for (int i = 0; i <= nums.length; i++) {
+            adTable[i] = new HashSet<>();
+        }
+        for (int[] degree : sequences) {
+            if (degree.length <= 1) {
+                continue;
+            }
+            for (int i = 0; i < degree.length - 1; i++) {
+                //两两相邻的取是因为这样等于是覆盖了跳着取的场景
+                adTable[degree[i]].add(degree[i + 1]);
+            }
+        }
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (adTable[nums[i]].contains(nums[i + 1])) {
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
 }
