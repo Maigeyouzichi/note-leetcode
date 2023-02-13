@@ -1970,4 +1970,43 @@ public class Solution {
             }
         }
     }
+
+
+    /**
+     * 面试题 08.07. 无重复字符串的排列组合 https://leetcode.cn/problems/permutation-i-lcci/
+     * 思路: 回溯
+     */
+    private List<String> rns_ = new ArrayList<>();
+    private StringBuilder sb = new StringBuilder();
+    private boolean[] bitArr;//判断是否存在于StringBuilder中
+    char[] chars;//所有元素
+    int k;//初始字符串大小
+    int count = 0;
+    public String[] permutation(String S) {
+        bitArr = new boolean[S.length()];
+        k = S.length();
+        chars = S.toCharArray();
+        backTracing();
+        return rns_.toArray(new String[rns_.size()]);
+    }
+
+    /**
+     * 回溯算法 -- 元素依次加入StringBuilder,开启递归,弹栈后移除元素,判断长度,当长度等于目标长度,加入结果集
+     */
+    private void backTracing() {
+        if (count == k) {
+            rns_.add(sb.toString());
+            return;
+        }
+        for (int i=0;i<chars.length;i++) {
+            if (bitArr[i]) continue;
+            sb.append(chars[i]);
+            bitArr[i] = true;
+            count++;
+            backTracing();
+            count--;
+            sb.deleteCharAt(count);
+            bitArr[i] = false;
+        }
+    }
 }
