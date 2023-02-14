@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 /**
@@ -2034,9 +2035,12 @@ public class Solution {
 
     /**
      * 面试题 17.14. 最小K个数 https://leetcode.cn/problems/smallest-k-lcci/
-     * 思路: 快速排序 -- 没有引入随机性
+     * 思路: 快速排序
+     * 1,引入随机性,避免出现O(n²) 2,题目不要求输出顺序,因此多余的区间不用进行排序
      */
+    int k_;
     public int[] smallestK(int[] arr, int k) {
+        k_ = k;
         quickSort(arr, 0, arr.length-1);
         return Arrays.copyOfRange(arr, 0, k);
     }
@@ -2047,8 +2051,11 @@ public class Solution {
     private void quickSort(int[] arr, int left, int right) {
         if (left >= right) return;
         int currentIndex = partition(arr, left, right);
-        quickSort(arr, left, currentIndex - 1);
-        quickSort(arr, currentIndex + 1, right);
+        if (currentIndex> k_-1) {
+            quickSort(arr, left, currentIndex - 1);
+        }else if(currentIndex < k_-1) {
+            quickSort(arr, currentIndex + 1, right);
+        }
     }
 
     /**
@@ -2056,6 +2063,9 @@ public class Solution {
      * @return 被比较的元素的index
      */
     private int partition(int[] arr, int left, int right) {
+        //引入随机性
+        int ridx = new Random().nextInt(right - left + 1) + left;
+        swap(arr, ridx, right);
         //指定被比较的元素
         int target = arr[right];
         int currentIndex = left;
@@ -2066,4 +2076,5 @@ public class Solution {
         swap(arr, currentIndex, right);
         return currentIndex;
     }
+
 }
