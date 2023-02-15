@@ -1,5 +1,7 @@
 package com.leetcode.hard;
 
+import com.leetcode.base.ListNode;
+
 @SuppressWarnings("all")
 class Solution {
 
@@ -41,5 +43,45 @@ class Solution {
             if(index == 2) break;
         }
         return rns;
+    }
+
+    /**
+     * 23. 合并K个升序链表 https://leetcode.cn/problems/merge-k-sorted-lists/
+     * 思路: 两两合并,转换成合并2个升序数组的问题
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists.length == 0) {
+            return null;
+        }
+        ListNode rns = lists[0];
+        for (int i = 1; i < lists.length; i++) {
+            ListNode curr = lists[i];
+            rns = mergeListNode(rns, curr);
+        }
+        return rns;
+    }
+
+    private ListNode mergeListNode(ListNode left, ListNode right) {
+        ListNode head = new ListNode();
+        ListNode curr = head;
+        while (left != null || right != null) {
+            if (left == null) {
+                curr.next = right;
+                break;
+            }
+            if (right == null) {
+                curr.next = left;
+                break;
+            }
+            if (left.val > right.val) {
+                curr.next = right;
+                right = right.next;
+            } else {
+                curr.next = left;
+                left = left.next;
+            }
+            curr = curr.next;
+        }
+        return head.next;
     }
 }
