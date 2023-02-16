@@ -18,14 +18,14 @@ public class QueueByArray {
         this.capacity = capacity;
     }
 
-    public boolean offer(int n) {
+    public synchronized boolean offer(int n) {
         if (size == arr.length) { return false; }
         arr[(tailIndex++)%capacity] = n;
         size++;
         return true;
     }
 
-    public int poll() {
+    public synchronized int poll() {
         if (size == 0) { return -1; }
         size--;
         return arr[(headIndex++)%capacity];
