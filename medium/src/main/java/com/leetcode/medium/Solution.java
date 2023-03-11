@@ -1,7 +1,7 @@
 package com.leetcode.medium;
 
 import com.leetcode.base.DisJointSet;
-import com.leetcode.base.ListNode;
+import com.leetcode.base.Node;
 import com.leetcode.base.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,22 +27,22 @@ public class Solution {
      * 2,两数相加 https://leetcode.cn/problems/add-two-numbers/
      * 思路: 遍历两个链表,不存在的节点值作0处理,依次相加,进位值单独存储,最后单独处理进位值
      */
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode head = new ListNode();
-        ListNode curr = head;
+    public Node addTwoNumbers(Node l1, Node l2) {
+        Node head = new Node();
+        Node curr = head;
         //保存进位数
         int k = 0;
         while(l1 != null || l2 != null) {
-            int first = l1 == null ? 0 : l1.val;
-            int second = l2 == null ? 0 : l2.val;
+            int first = l1 == null ? 0 : l1.value;
+            int second = l2 == null ? 0 : l2.value;
             int val = first + second + k;
-            curr.next = new ListNode(val%10);
+            curr.next = new Node(val%10);
             curr = curr.next;
             k = val/10;
             l1 = l1==null?null:l1.next;
             l2 = l2==null?null:l2.next;
         }
-        if(k>0) curr.next = new ListNode(k);
+        if(k>0) curr.next = new Node(k);
         return head.next;
     }
 
@@ -210,8 +210,8 @@ public class Solution {
      *  第一次遍历: 获取链表总长度,并获取目标节点的index(index从0开始)
      *  第二次遍历: 考虑不同情况不同处理,A-目标节点为头节点,B-目标节点为尾节点,C-目标节点为中间节点
      */
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode tmpNode = head;
+    public Node removeNthFromEnd(Node head, int n) {
+        Node tmpNode = head;
         int sz = 1;
         while (tmpNode.next != null) {
             tmpNode = tmpNode.next;
@@ -263,10 +263,10 @@ public class Solution {
      * 24. 两两交换链表中的节点 https://leetcode.cn/problems/swap-nodes-in-pairs/
      * 思路: 递归, swapPairs()方法将传入的node节点和后节点交换并返回后节点.
      */
-    public ListNode swapPairs(ListNode head) {
+    public Node swapPairs(Node head) {
         //方法的解释: 输入node节点,将node和next node交换后返回前面的节点
         if (head == null || head.next == null) { return head; }
-        ListNode next = head.next;
+        Node next = head.next;
         head.next = swapPairs(next.next);
         next.next = head;
         return next;
@@ -566,9 +566,9 @@ public class Solution {
     /**
      * 61. 旋转链表 https://leetcode.cn/problems/rotate-list/
      */
-    public ListNode rotateRight(ListNode head, int k) {
+    public Node rotateRight(Node head, int k) {
         if (head == null || head.next == null) return head;
-        ListNode tmpNode = head;
+        Node tmpNode = head;
         //求出链表总长度
         int nodeLength = 1;
         while (tmpNode.next != null) {
@@ -582,7 +582,7 @@ public class Solution {
         for (int i = 0; i < nodeLength-k-1; i++) {
             head = head.next;
         }
-        ListNode tmp = head;
+        Node tmp = head;
         head = head.next;
         tmp.next = null;
         return head;
@@ -748,18 +748,18 @@ public class Solution {
      * 82. 删除排序链表中的重复元素 II
      * 思路: 1,虚拟一个头结点 2,遍历所有节点,判断当前节点是否为有效节点,有效则连接 3,最后将最后一个节点断尾
      */
-    public ListNode deleteDuplicates(ListNode head) {
+    public Node deleteDuplicates(Node head) {
         if(head == null || head.next == null) return head;
         boolean[] bitArr = new boolean[201];
-        ListNode virtualValidHeadNode = new ListNode();
-        ListNode validNode = virtualValidHeadNode;
-        ListNode currentNode = head;
+        Node virtualValidHeadNode = new Node();
+        Node validNode = virtualValidHeadNode;
+        Node currentNode = head;
         while(currentNode != null) {
-            if(!bitArr[currentNode.val+100] && (currentNode.next == null || currentNode.val != currentNode.next.val)) {
+            if(!bitArr[currentNode.value +100] && (currentNode.next == null || currentNode.value != currentNode.next.value)) {
                 validNode.next = currentNode;
                 validNode = validNode.next;
             }
-            bitArr[currentNode.val+100] = true;
+            bitArr[currentNode.value +100] = true;
             currentNode = currentNode.next;
         }
         validNode.next = null;
@@ -772,20 +772,20 @@ public class Solution {
      * 思路: 移动
      * 题目要求保持原来的相对位置,所以不能直接进行重新赋值的操作,先找到第一个小于target的节点,后面遇到小于target的值就移动到左边接续的位置.
      */
-    public ListNode partition(ListNode head, int x) {
+    public Node partition(Node head, int x) {
         int target = x;
         if(head == null) return head;
         //创建虚拟头节点
-        ListNode virturalHeadNode = new ListNode();
+        Node virturalHeadNode = new Node();
         virturalHeadNode.next = head;
         //声明过程变量
-        ListNode currentEdgeNode = virturalHeadNode, currentRightNode = head.next, currentLeftNode = head;
+        Node currentEdgeNode = virturalHeadNode, currentRightNode = head.next, currentLeftNode = head;
         while(currentEdgeNode.next != null) {
-            if(currentEdgeNode.next.val >= target) break;
+            if(currentEdgeNode.next.value >= target) break;
             currentEdgeNode = currentEdgeNode.next;
         }
         while(currentRightNode != null) {
-            if(currentLeftNode.val >= target && currentRightNode.val < target) {
+            if(currentLeftNode.value >= target && currentRightNode.value < target) {
                 currentLeftNode.next = currentRightNode.next;
                 currentRightNode.next = currentEdgeNode.next;
                 currentEdgeNode.next = currentRightNode;
@@ -852,10 +852,10 @@ public class Solution {
      * (m-2*n) * b = a + x  -> k * b - x = a 即: 围着环转b圈再往回倒x个节点,刚好等于a个节点,所以相遇的时候快指针从head开始即可.
      *
      */
-    public ListNode detectCycle(ListNode head) {
+    public Node detectCycle(Node head) {
         if(head == null) return null;
-        ListNode fast = head;
-        ListNode slow = head;
+        Node fast = head;
+        Node slow = head;
         while(true) {
             fast = fast.next;
             slow = slow.next;
@@ -879,39 +879,39 @@ public class Solution {
      * 思路: 分治算法
      * 一个长链表分割成两个小链表,小链表继续分割,最终分割成单个链表,再两两有序合并.
      */
-    public ListNode sortList(ListNode head) {
+    public Node sortList(Node head) {
         return sortAndMerge(head);
     }
 
-    private ListNode sortAndMerge(ListNode node) {
+    private Node sortAndMerge(Node node) {
         //校验
         if(node ==null ||node.next == null) return node;
         //分割链表
-        ListNode binaryNode = binaryNode(node);
-        ListNode left = sortAndMerge(node);
-        ListNode right = sortAndMerge(binaryNode);
+        Node binaryNode = binaryNode(node);
+        Node left = sortAndMerge(node);
+        Node right = sortAndMerge(binaryNode);
         //合并链表
         return mergeListNode(left,right);
     }
 
     //快慢指针找到中间的节点并分割链表
-    private ListNode binaryNode(ListNode node) {
-        ListNode fast = node;
-        ListNode slow = node;
+    private Node binaryNode(Node node) {
+        Node fast = node;
+        Node slow = node;
         while(fast.next!=null && fast.next.next!=null) {
             fast = fast.next;
             fast = fast.next;
             slow = slow.next;
         }
-        ListNode binaryNode = slow.next;
+        Node binaryNode = slow.next;
         slow.next = null;
         return binaryNode;
     }
 
     //合并两个链表
-    private ListNode mergeListNode(ListNode left,ListNode right) {
-        ListNode head = new ListNode();
-        ListNode curr = head;
+    private Node mergeListNode(Node left, Node right) {
+        Node head = new Node();
+        Node curr = head;
         while(left!=null || right!=null) {
             if(left==null) {
                 curr.next = right;
@@ -921,7 +921,7 @@ public class Solution {
                 curr.next = left;
                 break;
             }
-            if(left.val > right.val) {
+            if(left.value > right.value) {
                 curr.next = right;
                 right = right.next;
             }else{
@@ -1156,8 +1156,8 @@ public class Solution {
      * 237. 删除链表中的节点 https://leetcode.cn/problems/delete-node-in-a-linked-list/
      * 思路: 题目约定要删除的节点不是末尾节点,可以将下个节点的值赋予当期节点,同时将next节点剔除当前链表中.
      */
-    public void deleteNode(ListNode node) {
-        node.val = node.next.val;
+    public void deleteNode(Node node) {
+        node.value = node.next.value;
         node.next = node.next.next;
     }
 
@@ -1327,24 +1327,24 @@ public class Solution {
      * 445. 两数相加 II https://leetcode.cn/problems/add-two-numbers-ii/
      * 思路: 分别进行翻转链表 -> 计算 -> 再次对结果进行翻转链表
      */
-    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
-        ListNode node1 = reverseNodeList(l1);
-        ListNode node2 = reverseNodeList(l2);
-        ListNode rns = new ListNode();
-        ListNode tmp = rns;
+    public Node addTwoNumbers2(Node l1, Node l2) {
+        Node node1 = reverseNodeList(l1);
+        Node node2 = reverseNodeList(l2);
+        Node rns = new Node();
+        Node tmp = rns;
         int k = 0;
         while(node1!= null || node2 != null) {
-            int num1 = node1 == null? 0: node1.val;
-            int num2 = node2 == null? 0: node2.val;
+            int num1 = node1 == null? 0: node1.value;
+            int num2 = node2 == null? 0: node2.value;
             int val = (num1+num2+k)%10;
             k = (num1+num2+k)/10;
-            tmp.next = new ListNode(val);
+            tmp.next = new Node(val);
             tmp = tmp.next;
             if(node1 != null) node1 = node1.next;
             if(node2 != null) node2 = node2.next;
         }
         if(k>0) {
-            tmp.next = new ListNode(k);
+            tmp.next = new Node(k);
         }
         return reverseNodeList(rns.next);
     }
@@ -1352,10 +1352,20 @@ public class Solution {
     /**
      * 翻转链表
      */
-    private ListNode reverseNodeList(ListNode node) {
-        ListNode pre = null;
-        ListNode curr = node;
-        ListNode next = node.next;
+    public Node reverseNodeList(Node node) {
+        Node pre = null,curr = node,next = node.next;
+        while(curr != null) {
+            next = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+        return pre;
+    }
+
+    public Node reverseList(Node head) {
+        if(head == null) return null;
+        Node curr = head,pre = null,next = null;
         while(curr != null) {
             next = curr.next;
             curr.next = pre;
@@ -1650,7 +1660,7 @@ public class Solution {
      * 817. 链表组件 https://leetcode.cn/problems/linked-list-components/
      * 思路: nums数组作为判断标准,遍历链表,求出结果
      */
-    public int numComponents(ListNode head, int[] nums) {
+    public int numComponents(Node head, int[] nums) {
         boolean[] bitArray = new boolean[10001];
         for(int nu:nums) {
             bitArray[nu] = true;
@@ -1658,7 +1668,7 @@ public class Solution {
         boolean flag = false;
         int count = 0;
         while(head!=null) {
-            if(bitArray[head.val]) {
+            if(bitArray[head.value]) {
                 if(!flag) {
                     count++;
                     flag = true;
@@ -1817,16 +1827,16 @@ public class Solution {
      * 2181. 合并零之间的节点 https://leetcode.cn/problems/merge-nodes-in-between-zeros/
      * 思路: 遍历
      */
-    public ListNode mergeNodes(ListNode head) {
-        ListNode virtualHead = new ListNode(), curr = virtualHead;
+    public Node mergeNodes(Node head) {
+        Node virtualHead = new Node(), curr = virtualHead;
         int tmpSum = 0;
         while(head != null) {
-            if(head.val == 0 && tmpSum > 0) {
-                curr.next = new ListNode(tmpSum);
+            if(head.value == 0 && tmpSum > 0) {
+                curr.next = new Node(tmpSum);
                 curr = curr.next;
                 tmpSum = 0;
-            }else if(head.val > 0) {
-                tmpSum += head.val;
+            }else if(head.value > 0) {
+                tmpSum += head.value;
             }
             head = head.next;
         }
