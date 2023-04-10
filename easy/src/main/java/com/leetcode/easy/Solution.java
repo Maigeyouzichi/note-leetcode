@@ -20,4 +20,20 @@ public class Solution {
         }
         return max;
     }
+
+    /**
+     * 9. Palindrome Number, 回文数字 https://leetcode.com/problems/palindrome-number/
+     * 思路: 不断取其最后一个数字构建新的数字,原来的数字不断舍弃低位,如果新数字大于原来的数字,判断两个数字是不是相等或者差一个地位数字区别
+     * 例子: 12321 或者 1221, 最后比较 12 和 123, 123/10 == 12 或者 12 == 12 的情况都认为是满足条件的.
+     */
+    public boolean isPalindrome(int x) {
+        if(x == 0) return true;
+        if(x < 0 || x%10 == 0) return false;
+        int reverse = 0;
+        while(x > reverse) {
+            reverse = reverse*10 + x%10;
+            x /= 10;
+        }
+        return x == reverse || x == reverse/10;
+    }
 }
