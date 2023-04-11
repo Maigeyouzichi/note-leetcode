@@ -84,4 +84,35 @@ class Solution {
         }
         return head.next;
     }
+
+    /**
+     * 4. Median of Two Sorted Arrays
+     * https://leetcode.com/problems/median-of-two-sorted-arrays/description/
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int[] mergeArr = new int[nums1.length + nums2.length];
+        int index1 = 0, index2 = 0, mergeIndex = 0;
+        while (index1 < nums1.length || index2 < nums2.length) {
+            if (index1 == nums1.length) {
+                while (index2 < nums2.length) {
+                    mergeArr[mergeIndex++] = nums2[index2++];
+                }
+                break;
+            }
+            if (index2 == nums2.length) {
+                while (index1 < nums1.length) {
+                    mergeArr[mergeIndex++] = nums1[index1++];
+                }
+                break;
+            }
+            if (nums1[index1] > nums2[index2]) {
+                mergeArr[mergeIndex++] = nums2[index2++];
+            } else {
+                mergeArr[mergeIndex++] = nums1[index1++];
+            }
+        }
+        int size = mergeArr.length;
+        return (size & 1) == 1 ? (mergeArr[size / 2] + 0.00) : (mergeArr[size/2 - 1] + mergeArr[size/2]) / 2.00;
+    }
+
 }
