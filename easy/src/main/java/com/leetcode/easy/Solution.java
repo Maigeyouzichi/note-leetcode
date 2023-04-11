@@ -36,4 +36,44 @@ public class Solution {
         }
         return x == reverse || x == reverse/10;
     }
+
+    /**
+     * 13. Roman to Integer https://leetcode.com/problems/roman-to-integer/description/
+     * 思路: 本质是从右向左,数变大了,相加,数变小了,相减
+     */
+    public int romanToInt(String s) {
+        int preNum = 0,currentNum = 0,sum = 0;
+        char[] romanChars = s.toCharArray();
+        for(int i = romanChars.length-1;i>=0;i--) {
+            currentNum = convertRomanToInt(romanChars[i]);
+            if (currentNum >= preNum) {
+                sum += currentNum;
+            }else {
+                sum -= currentNum;
+            }
+            preNum = currentNum;
+        }
+        return sum;
+    }
+
+    private int convertRomanToInt(char romanChar) {
+        switch (romanChar) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                return 0;
+        }
+    }
 }
